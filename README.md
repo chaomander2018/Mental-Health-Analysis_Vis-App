@@ -1,1 +1,1 @@
-# Mental-Health-Analysis_Vis-App
+# Mental Health Analysis Visualization App
