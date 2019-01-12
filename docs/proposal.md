@@ -2,8 +2,9 @@
 
 # 1.0 Overview
 
+Mental health issues have become one of the most important contributors to the burden of disease and disability in modern society, especially in workplaces. Mental illness’ impact continues to grow over the past years. According to the report of the World Health Organization (WHO),  over 300 million people suffer from depression, many of which come down with symptoms of anxiety. Researchers from the University of California found that 72% of entrepreneurs surveyed self-reported mental health concerns. Mental illness may result in the inability of concentration, difficulty handling pressures and multiple tasks, difficulty interacting with others.
 
-
+Employers and employees both benefit from a psychologically healthy workplace. Understanding mental health at the tech workplaces would helpful in order to foster a better work environment, increase productivity and reduce operating cost. Thus, we propose building an R-shiny-based data visualization app that allows administrators to visually explore the dataset regarding a mental health survey in 2014 in the tech industry. Decision makers may assess mental health at their workplaces and the employees’ mental states. Our app will show various factors associated with mental health awareness and the effectiveness of group benefit in regards to mental health.
 
 
 
@@ -62,6 +63,16 @@ We will visualize a dataset that contains 1295 subjects who participated in the 
 
 
 # 3.0 Usage scenario & tasks 
+
+### Case 1:
+Cindy is the Vice President of Human Resource department in a medium-sized tech company. She wants to understand how to promote mental healthiness in order to build a sustainable, efficient workplace for employees.
+
+Each year, Mental health insurance premium accounts for a huge part of the company’s hiring cost, Cindy is curious that whether employees actually benefit from the program. She will find employee’s overall awareness of the mental health benefit on the dashboard. Judging from the percentage of companies that provide care options, and knowing that only less than half of the employees are aware of mental support. Cindy is considering promoting the program within the company during company-wide events.
+
+From the survey, Cindy notices a fair share of the workforce believes asking for help could prove detrimental to their careers. She can further understand whether employees feel safe and comfortable seeking helps(either at the workplace or professionals). This makes her ponder what is the best way to encourage dialogues on mental health within teams…
+
+### Case 2:
+Mark is an entrepreneur of a growing tech start-up in Vancouver. He is wondering if the size of the work group and the concentration affect mental health and work efficiency.  Would employees be happier if they are able to work collaboratively with co-workers in the same office? After exploring the Mental Health Condition report and Workplace Information report in our app, he is able to sense an employee’s attitude towards on-site work collaboration. This information is valuable to Mark as he is on the fence of about renting a bigger office next year.
 
 
 
