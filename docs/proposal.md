@@ -71,3 +71,10 @@ We will visualize a dataset that contains 1295 subjects who participated in the 
 
 
 # 4.0 Description of app & initial sketch
+
+
+![](../imgs/shinyApp-Page-1.png)
+*Figure 1. The home page of shiny App*
+
+![](../imgs/shinyApp-Page-2.png)
+*Figure 2. The graph page of shiny App*
