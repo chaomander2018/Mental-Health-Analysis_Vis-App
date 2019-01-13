@@ -12,6 +12,12 @@ Instructor : Vincenzo Coia
 | Mengda Yu | `@Mengda(Albert) Yu` | `@mru4913` | [Albert's link](https://github.com/mru4913/Mental-Health-Analysis_Vis-App) |
 
 
+<<<<<<< HEAD
+# Documents
+
++ [Proposal](https://github.com/UBC-MDS/Mental-Health-Analysis_Vis-App/blob/master/docs/proposal.md)
+  - This is the proposal of this project. It contains the project overview, the description of data set and the usage scenario and the initial design of the shiny App.
+=======
 # Milestone 1.0 - Proposal 
 
 ## 1.0 Overview
@@ -22,7 +28,7 @@ Employers and employees both benefit from a psychologically healthy workplace. U
 
 
 
-## 2.0 Description of the data
+## 2.0 Description of the Data
 
 We will visualize a dataset that contains 1295 subjects who participated in the worldwide Tech Mental Health Survey. The survey examined 24 main factors associated with mental health status (excluding timestamp, state and comments) . We clustered the factors into five main categories based on the type of survey questions. Each survey result contains the demographic information (age, gender and country), mental health condition (family history, treatment and work interference),  workplace information (number of employees, allowing remote work, company type etc), organizational mental health support (benefits, care options, wellness program etc) and their openness about mental health issues at work.  The results of most survey questions are either yes or no. Some of questions contain scale results. The following is the questions listed in the survey.
 
@@ -76,7 +82,7 @@ We will visualize a dataset that contains 1295 subjects who participated in the 
 |obs_consequence| Have you heard of or observed negative consequences for coworkers with mental health conditions in your workplace? | categorical |
 
 
-## 3.0 Usage scenario & tasks 
+## 3.0 Usage Scenario & Tasks 
 
 
 #### Case 1:
@@ -93,18 +99,20 @@ From the survey, Cindy may notice a fair share of the workforce believed asking 
 Mark is an entrepreneur with a growing tech start-up in Vancouver. He wants to be able to [explore] and [visualize] the dataset to [determine] if the size of the work group and the concentration affects mental health and work efficiency in his office. Would employees be happier if they are able to work collaboratively with co-workers in the same office? After exploring the Mental Health Condition report and Workplace Information report in our app, he is able to sense an employee’s attitude towards on-site work collaboration. This information is valuable to Mark as he is on the fence about renting a bigger office next year and needs to know whether he can derive value from this business decision. 
 
 
-## 4.0 Description of app & initial sketch
+## 4.0 Description of App & Initial Sketch
 
-The main page of the app provides multiple widgets and display windows for users to customize and filter out variables from various visualization of data (table, bar chart and so on). A menu bar on the top of the page contains a logo and a repo link. Clicking on the logo leads user to the main page. The icon of Github links to our main repo, which allows users to read the code and make a better understanding of the app. 
+The main page of the app provides multiple widgets and display windows for users to customize and select variables from various visualizations (table, bar chart and so on). A menu bar on the top of the page contains a logo and a repo link. Clicking on the logo redirects users back to the main page. The icon of Github links to our team repo, which allows users to read the codes and make a better understanding of the app. 
 
-The app consists of two main display windows pages, a data page and a graph page. Since we group the data into five categories, users can select different category of data from a drop-down menu on the control panel, such as demographic information and organizational mental health supports. Radio buttons controls the display of data table in order to provide an overview of raw data. A help button is provided for user guide.
+The app consists of two main tabs, a data tab, and a graph tab. Since we group the data into five categories, users can select a different category of data from the drop-down menu on the control panel, such as demographic information and organizational mental health supports. Radio buttons control the display of data table in order to provide an overview of raw data. A help button is provided for further user guidance.
 
 ![](./imgs/shinyApp-Page-1.png)
 <div align="center">Figure 1. The home page of shiny App</div>
 
-The pie charts and bar charts will show the distribution of each factor corresponding to users’ data selection and variable options. For example, it will display the percentage of staff member knowing the options for mental health care their employer provides.
+The pie charts and bar charts will show the distribution of each factor according to users’ data selection and variable options. For example, it will display the percentage of staff member awareness of the mental health care options provided by their employers.
 
 ![](./imgs/shinyApp-Page-2.png)
 <div align="center">Figure 2. The graph page of shiny App</div>
   
+## 5.0 Reference: 
+1. [Getting Honest About Mental Health In The World Of Tech Startups](https://www.forbes.com/sites/forbestechcouncil/2018/08/08/getting-honest-about-mental-health-in-the-world-of-tech-startups/#5b5ebc1641a8)
 
