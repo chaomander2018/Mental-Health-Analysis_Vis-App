@@ -12,7 +12,6 @@ Instructor : Vincenzo Coia
 | Mengda Yu | `@Mengda(Albert) Yu` | `@mru4913` | [Albert's link](https://github.com/mru4913/Mental-Health-Analysis_Vis-App) |
 
 
-<<<<<<< HEAD
 # Documents
 
 + [Proposal](https://github.com/UBC-MDS/Mental-Health-Analysis_Vis-App/blob/master/docs/proposal.md)
