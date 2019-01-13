@@ -108,7 +108,7 @@ The pie charts and bar charts will show the distribution of each factor accordin
   
 ## 5.0 Reference: 
 
-1. Snobar, Abdullah. *Getting Honest About Mental Health In The World Of Tech Startups  *. \[online\] Available at: <https://www.forbes.com/sites/forbestechcouncil/2018/08/08/getting-honest-about-mental-health-in-the-world-of-tech-startups/#5b5ebc1641a8>. \[Accessed 11 Jan. 2019\]
+1. Snobar, Abdullah. *Getting Honest About Mental Health In The World Of Tech Startups*. \[online\] Available at: <https://www.forbes.com/sites/forbestechcouncil/2018/08/08/getting-honest-about-mental-health-in-the-world-of-tech-startups/#5b5ebc1641a8>. \[Accessed 11 Jan. 2019\]
 
 
 2. Open Sourcing Mental Illness, LTD. *Mental Health in Tech Survey - Survey on Mental Health in the Tech Workplace in 2014*. \[online\] Available at: <https://www.kaggle.com/osmi/mental-health-in-tech-survey>. \[Accessed 11 Jan. 2019\]
