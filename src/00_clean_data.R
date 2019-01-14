@@ -139,7 +139,7 @@ workplace_info <-
 write.csv(x= workplace_info, file = "./data/3.0_workplace_info.csv")
 
 org_support <- 
-  gender_clearn %>% 
+  gender_clean %>% 
   select(benefits, care_options, wellness_program, seek_help, anonymity, leave)
 write.csv(x= org_support, file = "./data/4.0_org_support.csv")
 
