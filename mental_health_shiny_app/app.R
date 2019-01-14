@@ -21,11 +21,11 @@ suppressPackageStartupMessages(library(tidyverse))
 
 
 # Prepare data
-demo_info <- read_csv("../data/survey.csv")
-# mental_cond <- read_csv()
-# work_info <- read_csv()
-# mental_support <- read_csv()
-# Openness <- read_csv()
+demo_info <- read_csv("../data/01_demo_info.csv")
+mental_cond <- read_csv("../data/02_mh_condition.csv")
+work_info <- read_csv("../data/03_workplace_info.csv")
+mental_support <- read_csv("../data/04_org_support.csv")
+Openness <- read_csv("../data/05_openness_about_mh.csv")
 
 ##################################################
 ## Section: UI layout
@@ -50,12 +50,24 @@ ui <- fluidPage(
      
       sidebarPanel(
         
+          # Droi
           selectInput("data_category", "Data Category: ", 
-                      choices = c),
+                      choices = c("Demographic information",
+                                  "Mental health condition",
+                                  "Workplace information",
+                                  "Organizational mental health supports",
+                                  "Openness about mental health")
+                      ),
           
-          br()
+          br(),
           
-         
+          radioButtons("display_button", "Display style:",
+                       list("Normal" = "rnorm",
+                            "Uniform" = "runif",
+                            "Right skewed" = "rlnorm",
+                            "Left skewed" = "rbeta")),
+          br(),
+          
       ),
       
       
@@ -83,15 +95,29 @@ ui <- fluidPage(
 server <- function(input, output) {
   
   # Data category filter
+  data_filter <- reactive({
+    
+    if (input$data_category == "Mental health condition") {
+      output_data <- mental_cond 
+    } else if (input$data_category == "Workplace information") {
+      output_data <- work_info
+    } else if (input$data_category == "Organizational mental health supports"){
+      output_data <- mental_support
+    } else if (input$data_category == "Openness about mental health") {
+      output_data <- Openness
+    } else { # default 
+      output_data <- demo_info
+    }
+    
+    output_data <- output_data %>%
+      rename(index = X1) %>% 
+      mutate(index = as.integer(index))
+      
+  })
   
-  data_filter <- reactive(
-    bcl %>%
-      filter(Price > input$priceInput[1],
-             Price < input$priceInput[2]) 
-  )
-  
+  # render the table
   output$data_table <- renderTable({
-    demo_info
+    data_filter()
   })
    
   
