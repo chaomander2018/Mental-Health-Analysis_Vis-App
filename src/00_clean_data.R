@@ -122,5 +122,35 @@ map_data("world")%>%
   scale_fill_gradientn(colours = c("#f0f9e8", "#ccebc5", "#a8ddb5","#7bccc4","#4eb3d3","#2b8cbe", "#08589e"))
   
 
+# Save Demographic information as 'demo_info.csv' in the data folder.
+demo_info <- 
+  gender_clean %>% 
+  select(Gender, Age, Country)
+write.csv(x= demo_info, file = "./data/1.0_demo_info.csv")
+
+mh_condition <- 
+  gender_clean %>% 
+  select(family_history,treatment, work_interfere)
+write.csv(x = mh_condition, file = "./data/2.0_mh_condition.csv")
+
+workplace_info <- 
+  gender_clean %>% 
+  select(self_employed, no_employees, remote_work, tech_company)
+write.csv(x= workplace_info, file = "./data/3.0_workplace_info.csv")
+
+org_support <- 
+  gender_clearn %>% 
+  select(benefits, care_options, wellness_program, seek_help, anonymity, leave)
+write.csv(x= org_support, file = "./data/4.0_org_support.csv")
+
+attitude <- 
+  gender_clean %>%
+  select(mental_health_consequence, phys_health_consequence, coworkers, supervisor,
+         mental_health_interview, phys_health_interview, mental_vs_physical,
+         obs_consequence)
+write.csv(x=attitude, file = "./data/5.0_openness_about_mh.csv")
+
+
+
 
 
