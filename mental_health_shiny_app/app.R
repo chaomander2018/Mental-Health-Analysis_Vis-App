@@ -3,7 +3,7 @@
 ##################################################
 ## Project: 
 ## Date: 
-## Author: Mengda (Albert) Yu [aut cre]
+## Author: Chao Wange [cre] and Mengda (Albert) Yu [aut cre]
 ## Script purpose: 
 ##  
 #
@@ -18,6 +18,7 @@
 
 suppressPackageStartupMessages(library(shiny))
 suppressPackageStartupMessages(library(tidyverse))
+#suppressPackageStartupMessages(library(DT))
 
 
 # Prepare data
@@ -31,61 +32,95 @@ Openness <- read_csv("../data/05_openness_about_mh.csv")
 ## Section: UI layout
 ##################################################
 # Define UI for application that draws a histogram
-ui <- fluidPage(
+ui <- navbarPage("C&A",
+                 
+                 # ============================================
+                 # The main tab
+                 # -  contains data and graph page
+                 tabPanel("Main",
+                          
+                          # Sidebar 
+                          sidebarLayout(
+                
+                            # The side bar panel
+                            sidebarPanel(
+                              
+                              # Select data category
+                              selectInput("data_category", "Data Category: ", 
+                                          choices = c("Demographic information",
+                                                      "Mental health condition",
+                                                      "Workplace information",
+                                                      "Organizational mental health supports",
+                                                      "Openness about mental health")
+                              ),
+                        
+                              br(),
+                              
+                              # Radio button to select the display style
+                              radioButtons("display_button", "Display style:",
+                                           list("Datatable",
+                                                "Structure",
+                                                "Summary"),
+                                           selected = "Datatable"),
+                              
+                              br(),
+                              
+                              br(),
+                              
+                              
+                              actionButton(inputId='ab1', 
+                                           label="Help", 
+                                           icon = icon("question", "fa-1x"),
+                                           onclick ="window.open('http://google.com', '_blank')")
+                              
+                            ),
+                            
+                            
+                          
+                            # The main Panel
+                            mainPanel(
+                              
+                              tabsetPanel(
+                                tabPanel("Table", 
+                                         tags$h2("Preview"),
+                                         dataTableOutput("data_table"), 
+                                         verbatimTextOutput("structure"),
+                                         verbatimTextOutput("summary")),
+                                tabPanel("Graphs", verbatimTextOutput("Graphs"))
+                              )
+                              
+                            )
+                          )
+                          
+                          
+                 ),
+                 
+                 
+                 # ============================================
+                 # The about tab
+                 # -  contains team info and the description of the project 
+                 tabPanel("About",
+                          
+                          fluidRow(
+                            
+                            column(12,
+                                includeMarkdown("../README.md")
+                                )
+                          )
+                          
+                          
+                 )
+                 
+                 # ============================================
+                 # The poweroff tab
+                 # -  to close the app 
+                 # tabPanel("", 
+                 #          icon = icon("power-off"),
+                 #          stopApp()
+                 #            )
+                 
 
-   # Application title
-   titlePanel("2014 Tech Mental Health Survey", 
-              windowTitle = "Shiny app"),
-   
-   
- 
-   
-   # Sidebar 
-   sidebarLayout(
-     
-     
-      
-     # =========================================
-     # The side bar 
-     
-      sidebarPanel(
-        
-          # Droi
-          selectInput("data_category", "Data Category: ", 
-                      choices = c("Demographic information",
-                                  "Mental health condition",
-                                  "Workplace information",
-                                  "Organizational mental health supports",
-                                  "Openness about mental health")
-                      ),
-          
-          br(),
-          
-          radioButtons("display_button", "Display style:",
-                       list("Normal" = "rnorm",
-                            "Uniform" = "runif",
-                            "Right skewed" = "rlnorm",
-                            "Left skewed" = "rbeta")),
-          br(),
-          
-      ),
-      
-      
-      
-      
-      # =========================================
-      # The main Panel
-      mainPanel(
-        
-          tableOutput("data_table")
-          
-      )
-   )
-
-   
 )
-
-
 
 
 ##################################################
@@ -112,18 +147,35 @@ server <- function(input, output) {
     output_data <- output_data %>%
       rename(index = X1) %>% 
       mutate(index = as.integer(index))
-      
   })
   
   # render the table
-  output$data_table <- renderTable({
-    data_filter()
+  output$data_table <- renderDataTable({
+    if (input$display_button == "Datatable") {
+      # datatable(data_filter(), options = list(
+      #   pageLength = 10,
+      #   lengthMenu = c(5, 10, 15, 20)
+      # ))
+      data_filter()
+    }
+  }, options = list(pageLength = 10, dom = 'lftipr'))
+  
+  # render the summary 
+  output$summary <- renderPrint({
+    if (input$display_button == "Summary"){
+      summary(data_filter())
+    }
   })
-   
+  
+  # render the structure
+  output$structure <- renderPrint({
+    if (input$display_button == "Structure"){
+      str(data_filter())
+    }
+  })
+  
   
 }
-
-
 
 
 

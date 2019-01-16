@@ -81,7 +81,8 @@ GQ <- c('queer/she/they', 'non-binary', 'nah', 'enby', 'fluid', 'genderqueer',
         'queer', 'ostensibly male, unsure what that really means')
 
 # Clean data 
-gender_clean <- gender_clean %>%
+gender_clean <- 
+  gender_clean %>%
   mutate(Gender = ifelse(Gender %in% cis_female, "cis-female", Gender),
          Gender = ifelse(Gender %in% cis_male, "cis-male", Gender),
          Gender = ifelse(Gender %in% trans_female, "trans-female", Gender),
@@ -126,29 +127,29 @@ map_data("world")%>%
 demo_info <- 
   gender_clean %>% 
   select(Gender, Age, Country)
-write.csv(x= demo_info, file = "./data/1.0_demo_info.csv")
+write.csv(x= demo_info, file = "./data/01_demo_info.csv")
 
 mh_condition <- 
   gender_clean %>% 
   select(family_history,treatment, work_interfere)
-write.csv(x = mh_condition, file = "./data/2.0_mh_condition.csv")
+write.csv(x = mh_condition, file = "./data/02_mh_condition.csv")
 
 workplace_info <- 
   gender_clean %>% 
   select(self_employed, no_employees, remote_work, tech_company)
-write.csv(x= workplace_info, file = "./data/3.0_workplace_info.csv")
+write.csv(x= workplace_info, file = "./data/03_workplace_info.csv")
 
 org_support <- 
   gender_clean %>% 
   select(benefits, care_options, wellness_program, seek_help, anonymity, leave)
-write.csv(x= org_support, file = "./data/4.0_org_support.csv")
+write.csv(x= org_support, file = "./data/04_org_support.csv")
 
 attitude <- 
   gender_clean %>%
   select(mental_health_consequence, phys_health_consequence, coworkers, supervisor,
          mental_health_interview, phys_health_interview, mental_vs_physical,
          obs_consequence)
-write.csv(x=attitude, file = "./data/5.0_openness_about_mh.csv")
+write.csv(x=attitude, file = "./data/05_openness_about_mh.csv")
 
 
 
