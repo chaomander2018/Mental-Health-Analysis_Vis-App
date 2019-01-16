@@ -3,7 +3,7 @@
 ##################################################
 ## Project: 
 ## Date: 
-## Author: Mengda (Albert) Yu [aut cre]
+## Author: Chao Wange [cre] and Mengda (Albert) Yu [aut cre]
 ## Script purpose: 
 ##  
 #
