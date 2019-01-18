@@ -81,7 +81,8 @@ GQ <- c('queer/she/they', 'non-binary', 'nah', 'enby', 'fluid', 'genderqueer',
         'queer', 'ostensibly male, unsure what that really means')
 
 # Clean data 
-gender_clean <- gender_clean %>%
+gender_clean <- 
+  gender_clean %>%
   mutate(Gender = ifelse(Gender %in% cis_female, "cis-female", Gender),
          Gender = ifelse(Gender %in% cis_male, "cis-male", Gender),
          Gender = ifelse(Gender %in% trans_female, "trans-female", Gender),
