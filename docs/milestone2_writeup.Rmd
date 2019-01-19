@@ -1,0 +1,42 @@
+---
+title: "Milestone 2 writeup"
+author: "Albert Yu, Chao Wang"
+date: '2019-01-18'
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Design Philosophy: 
+
+We follow the dashboard design Rule of Thumb: Key Information displayed first, on top of the screen, upper left-hand corner. The options are given to the user to navigate the app on the left sidebar panel. There is some scientific wisdom behind this placement – most cultures read their written language from left to right and top to bottom, which means that people intuitively look at the upper-left part of a page first. The main tab displays the big picture, the table sections show the overall results, the graph section reflects closing on the user scenario. 
+
+####Insert Screenshot 1 - Main page-Table tab
+
+Users are landed on the Main page, Table tab. The survey has been broken down to 5 individual reports. By selecting the Data Categories on the side panel, a specific aspect of the mental health survey results will be displayed. The page length options and sorting options give flexibility to the user while maintaining a tidy look of the App. 
+We offer three display styles, 
+
+
+####Insert Screenshot 2 - Main page-Graph tab
+
+We choose bar charts because human reacts to length change the best comparing with other pattern changes. Bar charts can quickly compare items in the same category, for example, easiness on leaves. Again such charts are easy to understand, clear and compact.
+
+As an alternative, Pie charts can be instantly scanned and users will notice the biggest slice immediately. Dashboard Description
+
+###Reflection: 
+#####How have your visualization goals changed?
+-Though our goal stays the same, we trim down our user scenarios from two to one. This is because of precision and the right audience targeting. An HR Vice President deciding on group benefit plan need different data than a startup owner deciding on office rental. We mainly focus on the company’s mental health support and awareness of the mental help support program.
+-On the other hand, we want to give our users more autonomy to choose what they see.  Users could use the search bar to only select U.S. data. An HR in the United States not necessarily interested in the results in the Czech Republic.
+####Does your app enable the tasks you set out to facilitate?
+-Our Vision is to forester a better work environment, increase productivity and reduce operating cost. Our app is able to demonstrate the low awareness of care programs and the importance of support anonymity in the workplace. People tend to seek help when they know their privacy is protected. 
+
+####Things to be improved next week?
+ 
+
+### Reference: 
+1. How to Create Documentation for Dashboards(https://chartio.com/learn/dashboards-and-charts/how-to-create-documentation-for-dashboards/)
+2. 10 Dashboard Design Principles & Best Practices To Enhance Your Data Analysis (https://www.datapine.com/blog/dashboard-design-principles-and-best-practices/)
+3. User Experience Design (https://www.interaction-design.org/literature/topics/ux-design)
+
