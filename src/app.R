@@ -25,6 +25,7 @@ mental_support <- read_csv("../data/04_org_support.csv")
 Openness <- read_csv("../data/05_openness_about_mh.csv")
 tidyall <- read_csv("../data/06_data_tidy.csv")
 
+
 ##################################################
 ## Section: UI layout
 ##################################################
@@ -196,6 +197,8 @@ server <- function(input, output) {
   # ==================================================
   # Graph page
   # ==================================================
+  
+  # filter data for graph
   graph_filter <- reactive ({
     
     # filter by country
@@ -211,6 +214,7 @@ server <- function(input, output) {
     
   })
   
+  # return UI component based on graph type
   output$ui <- renderUI({
     if (is.null(input$radioGraphType))
       return()
@@ -224,6 +228,7 @@ server <- function(input, output) {
     )
   })
   
+  # create a plot 
   constructe_plot <- reactive({
     if (is.null(input$radioBarPos))
       return()
@@ -274,6 +279,7 @@ server <- function(input, output) {
     }
   })
   
+  # output of graphs 
   output$row_1_l <- renderPlotly({
     if (!is.null(input$radioBarPos)){
       p <- constructe_plot()
