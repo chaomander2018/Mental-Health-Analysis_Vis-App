@@ -86,7 +86,8 @@ ui <- navbarPage("C&A",
                                          dataTableOutput("data_table"), 
                                          verbatimTextOutput("structure"),
                                          verbatimTextOutput("summary")),
-                                tabPanel("Graphs", verbatimTextOutput("Graphs"))
+                                tabPanel("Graphs", verbatimTextOutput("Graphs"), 
+                                         plotOutput("bar", height = "250px"), plotOutput("pie",height = "250px"))
                               )
                               
                             )
@@ -174,10 +175,66 @@ server <- function(input, output) {
     }
   })
   
+  output$pie <- renderPlot({
+    grid.arrange(leave_pie, 
+                 awareness_pie,
+                 ncol=2, nrow=1, 
+                 widths=c(8,8))
+  })  
+  output$bar <- renderPlot({
+    grid.arrange(interfere_bar, 
+                 help_anony_bar,
+                 ncol=2, nrow = 1,
+                 widths = c(8,8))
+    
+    
+    
+  }) 
   
 }
 
+interfere_bar <-
+  mental_cond %>% 
+  ggplot(aes(x= factor(work_interfere),  fill = treatment ))+
+  geom_bar(width = 0.5,position="dodge")+
+  ggtitle("Work Interfer by Mental Health Condition")+
+  xlab("Work Interfere")+
+  guides(fill=guide_legend(title="Treatment"),
+         axis.title.y = element_blank(),
+         panel.grid.minor=element_blank(),
+         plot.title = element_text(size=4))
 
+h_help <- c("Yes","No") 
+help_anony_bar <- mental_support %>% 
+  filter(seek_help %in% h_help) %>% 
+  ggplot(aes(x = seek_help))+
+  geom_bar(width = 0.8, aes(fill = anonymity))+
+  guides(fill=guide_legend(title="Anonymity"),
+         panel.grid.minor=element_blank(),
+         plot.title = element_text(size=4))+
+  ggtitle("Anonymity and Seeking Help")
+
+awareness_bar <- ggplot(mental_support, aes(x = factor(1), fill = care_options))+
+  geom_bar(width = 1)+
+  theme(axis.ticks=element_blank(),
+        axis.text.y=element_blank(),
+        axis.text.x=element_text(colour='black'))+
+  ggtitle("Awareness of the Care Program")
+awareness_bar
+
+awareness_pie <- awareness_bar + coord_polar(theta = "y")+
+  theme(axis.text.x=element_blank(),
+        legend.title = element_text(colour="blue", size=0.1, face="bold")) 
+
+leave_bar <- ggplot(mental_support, aes(x = factor(1), fill = leave))+
+  geom_bar(width = 1)+
+  theme(axis.ticks=element_blank(),
+        axis.text.y=element_blank(),
+        axis.text.x=element_text(colour='black'),
+        legend.title = element_text(colour="blue", size=0.1, face="bold"))
+leave_pie <- leave_bar+ coord_polar(theta = "y")+
+  ggtitle("Easyness on Leaves")+
+  theme(axis.text.x=element_blank())
 
 ##################################################
 ## Section: run app
