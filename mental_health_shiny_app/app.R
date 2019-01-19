@@ -18,6 +18,7 @@
 
 suppressPackageStartupMessages(library(shiny))
 suppressPackageStartupMessages(library(tidyverse))
+suppressPackageStartupMessages(library(gridExtra))
 #suppressPackageStartupMessages(library(DT))
 
 
@@ -233,7 +234,7 @@ leave_bar <- ggplot(mental_support, aes(x = factor(1), fill = leave))+
         axis.text.x=element_text(colour='black'),
         legend.title = element_text(colour="blue", size=0.1, face="bold"))
 leave_pie <- leave_bar+ coord_polar(theta = "y")+
-  ggtitle("Easyness on Leaves")+
+  ggtitle("Easiness on Leaves")+
   theme(axis.text.x=element_blank())
 
 ##################################################
