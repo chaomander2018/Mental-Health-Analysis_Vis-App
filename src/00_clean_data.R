@@ -40,16 +40,22 @@ age_clean <-
 # Junior (Early Adulthood): 25 - 34
 # Senior (Middle Adulthood): 35 - 60
 # Super (Later Adulthood): >60
+age_clean$Age<- cut(age_clean$Age, breaks = c(16, 24, 34, 60, 75), 
+                    labels = c('Fresh', 'Junior', 'Senior', 'Super'))
 
 age_clean %>%
   ggplot(aes(x=Age)) +
-  geom_density() + 
+  geom_bar() + 
   theme_bw() +
   xlab("Age") + 
   ylab("Density") +
   ggtitle("The distribution of age in the 2014 Mental Health Tech Survey") +
   theme(plot.title = element_text(size = 13, face = "bold", hjust = 0.5))
 
+age_clean %>%
+  group_by(family_history) %>%
+  summarise (n = n()) %>%
+  mutate(freq = n / sum(n) * 100)
 ##################################################
 ## Section: Clean gender
 ##################################################    
@@ -151,6 +157,10 @@ attitude <-
          obs_consequence)
 write.csv(x=attitude, file = "./data/05_openness_about_mh.csv")
 
+
+write.csv(gender_clean, file = "./data/06_data_tidy.csv")
+  
+  
 
 
 
