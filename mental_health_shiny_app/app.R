@@ -4,7 +4,7 @@
 ## Project: 
 ## Date: 
 ## Author: Chao Wange [cre] and Mengda (Albert) Yu [aut cre]
-## Script purpose: 
+## Script purpose: The scripts of shiny App
 ##  
 ##
 ##################################################
@@ -299,6 +299,7 @@ server <- function(input, output) {
   
 }
 
+
 # interfere_bar <-
 #   mental_cond %>% 
 #   ggplot(aes(x= factor(work_interfere),  fill = treatment ))+
@@ -344,7 +345,7 @@ server <- function(input, output) {
 #         legend.title = element_text(colour="blue", size=0.1, face="bold"))
 # 
 # leave_pie <- leave_bar+ coord_polar(theta = "y")+
-#   ggtitle("Easyness on Leaves")+
+#   ggtitle("Easiness on Leaves")+
 #   theme(axis.text.x=element_blank())
 
 ##################################################
