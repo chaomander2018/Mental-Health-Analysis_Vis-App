@@ -52,6 +52,10 @@ age_clean %>%
   ggtitle("The distribution of age in the 2014 Mental Health Tech Survey") +
   theme(plot.title = element_text(size = 13, face = "bold", hjust = 0.5))
 
+age_clean %>%
+  group_by(family_history) %>%
+  summarise (n = n()) %>%
+  mutate(freq = n / sum(n) * 100)
 ##################################################
 ## Section: Clean gender
 ##################################################    

@@ -69,18 +69,17 @@ ui <- navbarPage("C&A",
                                                  "Pie graph" = "pie"), 
                                   selected = "bar", inline = TRUE),
                      uiOutput("ui"),
-        
+                     br(),
                      # Help button 
                      actionLink(inputId='ab1', 
                                   label="Help", 
                                   icon = icon("question", "fa-1x"),
-                                  onclick ="window.open('http://google.com', '_blank')")
+                                  onclick ="window.open('https://github.com/UBC-MDS/Mental-Health-Analysis_Vis-App', '_blank')")
                      
                    ),
                    
                    # The main Panel
                    mainPanel(
-                     
                      tabsetPanel(
                        tabPanel("Graphs", 
                                 verbatimTextOutput("Graphs"), 
@@ -88,7 +87,6 @@ ui <- navbarPage("C&A",
                                 # plotOutput("row_1_r")
                                 # plotOutput("bar", height = "250px"), 
                                 # plotOutput("pie")
-                                # plotOutput("multiplots")
                                 ),
                        tabPanel("Table", 
                                 tags$h1("Data Preview"),
@@ -219,7 +217,7 @@ server <- function(input, output) {
     
     # Depending on input$input_type, we'll generate a different UI component and send it to the client.
     switch(input$radioGraphType,
-           "bar" = radioButtons("radioBarPos", label = h4("Bar position"),
+           "bar" = radioButtons("radioBarPos", label = h5("Bar position"),
                                 choices = list("Stack" = "stack", 
                                                "Dodge" = "dodge"), 
                                 selected = "stack", inline = TRUE)
@@ -240,6 +238,23 @@ server <- function(input, output) {
       mytitle <- "Does your employer provide \n mental health benefits?"
     }
     
+    if (input$radioGraphType == "pie"){
+      
+      pie_data <- graph_filter() %>%
+        group_by(!!sym(input$selectTopic)) %>%
+        summarise (n = n()) %>%
+        mutate(new_labels = as.factor(!!sym(input$selectTopic)))
+        
+      p <- plot_ly(pie_data,  labels = ~new_labels, values = ~n, type = 'pie') %>%
+        layout(title = mytitle,
+               height = 670,
+               font=list(family = "American Typewriter", size = 17, color = 'black'),
+               xaxis = list(showgrid = FALSE, zeroline = FALSE, showticklabels = FALSE),
+               yaxis = list(showgrid = FALSE, zeroline = FALSE, showticklabels = FALSE),
+               margin = list(l = 100, r = 2, b = 2, t = 85, pad = 4))
+
+    } else {
+      
     p <- graph_filter() %>%
       ggplot(aes(x=!!sym(input$selectTopic), fill = !!sym(input$selectVariable))) +
       geom_bar(width = 0.8,  position = input$radioBarPos, colour="black", size=.1) +
@@ -248,25 +263,23 @@ server <- function(input, output) {
            y = "The count",
            title = mytitle) +
       theme(panel.grid.minor = element_blank(),
-            plot.title = element_text(size = 16, face = "bold", hjust = 0.5,  family="American Typewriter", lineheight=1.2),
+            plot.title = element_text(size = 19, hjust = 0.5,  family="American Typewriter", lineheight=1.2),
+            plot.margin = margin(40, 2, 2, 2),
             axis.text.x = element_text(size = 12, face = "bold"),
             axis.text.y = element_text(size = 10),
             legend.title = element_blank(),
             legend.position = "top") +
       guides(fill=guide_legend(title=input$selectVariable))
     
-    ggplotly(p, height = 670)  %>% layout(legend =list(size = 20))
+    }
   })
   
   output$row_1_l <- renderPlotly({
-    constructe_plot()
+    if (!is.null(input$radioBarPos)){
+      p <- constructe_plot()
+      ggplotly(p, height = 670)  %>% layout(legend =list(size = 20))
+    }
   })
-  
-  # output$row_1_r <- renderPlot({
-  #   if (input$radioGraphType != "bar"){
-  #     constructe_plot()
-  #   }
-  # })
   
   # output$bar <- renderPlot({
   #   grid.arrange(interfere_bar, 
@@ -276,9 +289,6 @@ server <- function(input, output) {
   # })
   # 
   # output$pie <- renderPlot({
-  #   # if (input$radioGraphType == "pie"){
-  #   #   constructe_plot()
-  #   # }
   #   if (input$radioGraphType != "bar"){
   #   grid.arrange(constructe_plot() + coord_polar(theta = "y"),
   #                awareness_pie,
