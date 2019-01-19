@@ -69,10 +69,7 @@ ui <- navbarPage("C&A",
                                                  "Pie graph" = "pie"), 
                                   selected = "bar", inline = TRUE),
                      uiOutput("ui"),
-                     radioButtons("radioBarPos", label = h4("Bar position"),
-                                  choices = list("Stack" = "stack", 
-                                                 "Dodge" = "dodge"), 
-                                  selected = "stack", inline = TRUE),
+        
                      # Help button 
                      actionLink(inputId='ab1', 
                                   label="Help", 
@@ -87,10 +84,10 @@ ui <- navbarPage("C&A",
                      tabsetPanel(
                        tabPanel("Graphs", 
                                 verbatimTextOutput("Graphs"), 
-                                plotlyOutput("row_1_l"),
+                                plotlyOutput("row_1_l")
                                 # plotOutput("row_1_r")
                                 # plotOutput("bar", height = "250px"), 
-                                plotOutput("pie")
+                                # plotOutput("pie")
                                 # plotOutput("multiplots")
                                 ),
                        tabPanel("Table", 
@@ -220,18 +217,18 @@ server <- function(input, output) {
     if (is.null(input$radioGraphType))
       return()
     
-    # Depending on input$input_type, we'll generate a different
-    # UI component and send it to the client.
+    # Depending on input$input_type, we'll generate a different UI component and send it to the client.
     switch(input$radioGraphType,
-           "bar" = radioButtons("dynamic", "Dynamic",
-                                         choices = c("Option 1" = "option1",
-                                                     "Option 2" = "option2"),
-                                         selected = "option2"
-           )
+           "bar" = radioButtons("radioBarPos", label = h4("Bar position"),
+                                choices = list("Stack" = "stack", 
+                                               "Dodge" = "dodge"), 
+                                selected = "stack", inline = TRUE)
     )
   })
   
   constructe_plot <- reactive({
+    if (is.null(input$radioBarPos))
+      return()
     
     if (input$selectTopic == "care_options"){
       mytitle <- "Whether employees know the options\n for mental health care"
@@ -257,20 +254,19 @@ server <- function(input, output) {
             legend.title = element_blank(),
             legend.position = "top") +
       guides(fill=guide_legend(title=input$selectVariable))
+    
+    ggplotly(p, height = 670)  %>% layout(legend =list(size = 20))
   })
   
   output$row_1_l <- renderPlotly({
-    if (input$radioGraphType == "bar"){
-      p <- constructe_plot()
-      p <- ggplotly(p, height = 670)  %>% layout(legend =list(size = 20))
-    }
+    constructe_plot()
   })
   
-  output$row_1_r <- renderPlot({
-    if (input$radioGraphType != "bar"){
-      constructe_plot()
-    }
-  })
+  # output$row_1_r <- renderPlot({
+  #   if (input$radioGraphType != "bar"){
+  #     constructe_plot()
+  #   }
+  # })
   
   # output$bar <- renderPlot({
   #   grid.arrange(interfere_bar, 
@@ -279,17 +275,17 @@ server <- function(input, output) {
   #                widths = c(8,8))
   # })
   # 
-  output$pie <- renderPlot({
-    # if (input$radioGraphType == "pie"){
-    #   constructe_plot()
-    # }
-    if (input$radioGraphType != "bar"){
-    grid.arrange(constructe_plot() + coord_polar(theta = "y"),
-                 awareness_pie,
-                 ncol=2, nrow=1,
-                 widths=c(8,8))
-    }
-  })
+  # output$pie <- renderPlot({
+  #   # if (input$radioGraphType == "pie"){
+  #   #   constructe_plot()
+  #   # }
+  #   if (input$radioGraphType != "bar"){
+  #   grid.arrange(constructe_plot() + coord_polar(theta = "y"),
+  #                awareness_pie,
+  #                ncol=2, nrow=1,
+  #                widths=c(8,8))
+  #   }
+  # })
   
 }
 
@@ -314,32 +310,32 @@ server <- function(input, output) {
 #          panel.grid.minor=element_blank(),
 #          plot.title = element_text(size=4))+
 #   ggtitle("Anonymity and Seeking Help")
-
-awareness_bar <-
-  ggplot(mental_support, aes(x = factor(1), fill = care_options))+
-  geom_bar(width = 1)+
-  theme(axis.ticks=element_blank(),
-        axis.text.y=element_blank(),
-        axis.text.x=element_text(colour='black'))+
-  ggtitle("Awareness of the Care Program")
-
-
-awareness_pie <-
-  awareness_bar + coord_polar(theta = "y")+
-  theme(axis.text.x=element_blank(),
-        legend.title = element_text(colour="blue", size=0.1, face="bold"))
-
-leave_bar <-
-  ggplot(mental_support, aes(x = factor(1), fill = leave))+
-  geom_bar(width = 1)+
-  theme(axis.ticks=element_blank(),
-        axis.text.y=element_blank(),
-        axis.text.x=element_text(colour='black'),
-        legend.title = element_text(colour="blue", size=0.1, face="bold"))
-
-leave_pie <- leave_bar+ coord_polar(theta = "y")+
-  ggtitle("Easyness on Leaves")+
-  theme(axis.text.x=element_blank())
+# 
+# awareness_bar <-
+#   ggplot(mental_support, aes(x = factor(1), fill = care_options))+
+#   geom_bar(width = 1)+
+#   theme(axis.ticks=element_blank(),
+#         axis.text.y=element_blank(),
+#         axis.text.x=element_text(colour='black'))+
+#   ggtitle("Awareness of the Care Program")
+# 
+# 
+# awareness_pie <-
+#   awareness_bar + coord_polar(theta = "y")+
+#   theme(axis.text.x=element_blank(),
+#         legend.title = element_text(colour="blue", size=0.1, face="bold"))
+# 
+# leave_bar <-
+#   ggplot(mental_support, aes(x = factor(1), fill = leave))+
+#   geom_bar(width = 1)+
+#   theme(axis.ticks=element_blank(),
+#         axis.text.y=element_blank(),
+#         axis.text.x=element_text(colour='black'),
+#         legend.title = element_text(colour="blue", size=0.1, face="bold"))
+# 
+# leave_pie <- leave_bar+ coord_polar(theta = "y")+
+#   ggtitle("Easyness on Leaves")+
+#   theme(axis.text.x=element_blank())
 
 ##################################################
 ## Section: run app
