@@ -61,7 +61,7 @@ Comparing with our App sketch last week, our app displays one chart at one scree
 
 ### 4.0 Bugs:
 
-So far, no bugs detected. We welcome feedback from TAs and MDS students.
+So far, no bugs were detected. We welcome feedback from TAs and MDS students.
 
 ## 5.0 Reference:
 1. *How to Create Documentation for Dashboards*.\[online\] Available at:<https://chartio.com/learn/dashboards-and-charts/how-to-create-documentation-for-dashboards/>.\[Accessed 16 Jan. 2019\]
