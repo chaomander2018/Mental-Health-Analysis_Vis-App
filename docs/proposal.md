@@ -85,12 +85,12 @@ The main page of the app provides multiple widgets and display windows for users
 
 The app consists of two main tabs, a data tab, and a graph tab. Since we group the data into five categories, users can select a different category of data from the drop-down menu on the control panel, such as demographic information and organizational mental health supports. Radio buttons control the display of data table in order to provide an overview of raw data. A help button is provided for further user guidance.
 
-![](./imgs/shinyApp-Page-1.png)
+![](../imgs/shinyApp-Page-1.png)
 <div align="center">Figure 1. The home page of shiny App</div>
 
 The pie charts and bar charts will show the distribution of each factor according to users’ data selection and variable options. For example, it will display the percentage of staff member awareness of the mental health care options provided by their employers.
 
-![](./imgs/shinyApp-Page-2.png)
+![](../imgs/shinyApp-Page-2.png)
 <div align="center">Figure 2. The graph page of shiny App</div>
   
 ## 5.0 Reference: 
