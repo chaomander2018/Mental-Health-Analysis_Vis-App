@@ -1,0 +1,12 @@
+name: Mental-Health-Analysis_Vis-App
+title: Mental-Health-Analysis_Vis-App
+username:
+account: mru4913
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 655966
+bundleId: 1824598
+url: https://mru4913.shinyapps.io/Mental-Health-Analysis_Vis-App/
+when: 1547938805.62812
+asMultiple: FALSE
+asStatic: FALSE
