@@ -21,7 +21,7 @@ Instructor : Vincenzo Coia
 | Milestone  | Tasks |
 | :------: | :---: |
 | Milestone 2.0 | [Writeup](https://github.com/UBC-MDS/Mental-Health-Analysis_Vis-App/blob/master/docs/m2_writeup.md) |
-|          |[Deployed Shiny App] (https://mru4913.shinyapps.io/Mental-Health-Analysis_Vis-App/)
+|              | [Deployed Shiny App](https://mru4913.shinyapps.io/Mental-Health-Analysis_Vis-App/)|
 |        | [Shiny App Source Code](https://github.com/UBC-MDS/Mental-Health-Analysis_Vis-App/blob/master/src/app.R)|
 # Milestone 2 Writeup
 
