@@ -55,8 +55,8 @@ ui <- dashboardPage( # skin = "black",
       br(),
       # Help button 
       actionLink(inputId='ab1', 
-                 label="More info", 
-                 icon = icon("github", "fa-1x"),
+                 label=paste("   ","More info"),
+                 icon = icon("github"),
                  onclick ="window.open('https://github.com/UBC-MDS/Mental-Health-Analysis_Vis-App', '_blank')")
       
     )
@@ -164,9 +164,7 @@ ui <- dashboardPage( # skin = "black",
                               fluidRow(
                                   box(
                                     width = 13, 
-                                    status = "primary",
                                     title = "Description",
-                                    solidHeader = TRUE,
                                     collapsible = TRUE,
                                     collapsed = TRUE,
                                     # Select data category
@@ -178,8 +176,8 @@ ui <- dashboardPage( # skin = "black",
               
       ),
       tabItem("about",
-              fluidPage(12,
-              includeMarkdown("./README.md")
+              column(12,
+                includeMarkdown("./README.md")
               )
       )
       
@@ -231,7 +229,7 @@ server <- function(input, output) {
       value = dim(graph_filter())[1],
       subtitle = h4("Current Observation"),
       icon = icon("user-alt"),
-      color = if (dim(graph_filter())[1] >= 1000) "aqua" else "light-blue"
+      color = if (dim(graph_filter())[1] >= 1000) "orange" else "yellow"
     )
   })
   
@@ -320,7 +318,7 @@ server <- function(input, output) {
       
       p <- plot_ly(pie_data,  labels = ~new_labels, values = ~n, type = 'pie') %>%
         layout(title = mytitle,
-               height = 570,
+               height = 560,
                font= list(family = "American Typewriter", size = 17, color = 'black'),
                xaxis = list(showgrid = FALSE, zeroline = FALSE, showticklabels = FALSE),
                yaxis = list(showgrid = FALSE, zeroline = FALSE, showticklabels = FALSE),
@@ -351,7 +349,7 @@ server <- function(input, output) {
   output$row_1_l <- renderPlotly({
     if (!is.null(input$radioBarPos)){
       p <- constructe_plot()
-      ggplotly(p, height = 570)  %>% layout(legend =list(size = 20))
+      ggplotly(p, height = 560)  %>% layout(legend =list(size = 20))
     }
   })
   
@@ -426,7 +424,7 @@ server <- function(input, output) {
   }, 
   options = list(pageLength = 10,
                  dom = 'lftipr', 
-                 scrollY = 580,
+                 scrollY = 570,
                  scroller = TRUE,
                  scrollX = TRUE)
   )
@@ -434,7 +432,7 @@ server <- function(input, output) {
   # render the summary 
   output$summary <- renderPrint({
     if (input$display_button == "Summary"){
-      summary(data_filter())
+      print(summary(data_filter()))
     }
   })
   
@@ -487,7 +485,7 @@ server <- function(input, output) {
                     lengthMenu = c(3),
                     dom = 'tp',
                     searching = FALSE,
-                    scrollY = 320,
+                    scrollY = 330,
                     scroller = TRUE)
   )
   

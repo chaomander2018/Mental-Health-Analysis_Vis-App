@@ -4,7 +4,7 @@ Author: Chao Wang, Albert Yu,
 
 ### 1.0 Design Philosophy
 
-Our rationale for the set-up of this App is that we wanted to provides users a general picture of the effectiveness of Tech company mental health support via interative plots and datatable. We followed the dashboard design rule of thumb: key information displayed first, on top of the screen, in the upper left-hand corner. The options are given to the user to navigate the app in the left sidebar panel. There is some scientific wisdom behind this placement – most cultures read their written language from left to right and top to bottom, which means that people intuitively look at the upper-left part of a page first. Through the use of dropdown menus and radio buttons we are able to customize the app interface to individual user cases, while offering flexibility of visualization choices, and providing granular details to provide a neat look. The main tab displays the big picture, and the graph tab reflects the survey results according to the user's choice, while the table sections show the overall results.
+Our rationale for the set-up of this App is that we wanted to provides users a general picture of the effectiveness of Tech company mental health support via interactive plots and datatable. We followed the dashboard design rule of thumb: key information displayed first, on top of the screen, in the upper left-hand corner. The options are given to the user to navigate the app in the left sidebar panel. There is some scientific wisdom behind this placement – most cultures read their written language from left to right and top to bottom, which means that people intuitively look at the upper-left part of a page first. Through the use of dropdown menus and radio buttons we are able to customize the app interface to individual user cases, while offering flexibility of visualization choices, and providing granular details to provide a neat look. The main tab displays the big picture, and the graph tab reflects the survey results according to the user's choice, while the table sections show the overall results.
 
 ### 2.0 Tasks:
 #### 2.1 Tells a clear story:  
@@ -39,7 +39,7 @@ Comparing with our App sketch last week, our app displays one chart at one scree
 
 ### 4.0 Bugs:
 
-So far, no bugs detected. We welcome feedbacks from TAs and MDS students.
+So far, no bugs were detected. We welcome feedback from TAs and MDS students.
 
 ## 5.0 Reference:
 1. *How to Create Documentation for Dashboards*.\[online\] Available at:<https://chartio.com/learn/dashboards-and-charts/how-to-create-documentation-for-dashboards/>.\[Accessed 16 Jan. 2019\]
