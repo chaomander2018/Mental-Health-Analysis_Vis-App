@@ -84,7 +84,7 @@ On the data page, a **download button** was added for users to continue their wo
 Both data filter panel and description table are **collapsible** to maintain a clean visualization.
 
 <div align="center">
-<img src="../imgs/app2-datapage.png" alt="table"/>
+<img src="../imgs/app2-datapage.png" width="350" height="200" alt="table"/>
 </div>
 
 # 3.0 Conclusion
