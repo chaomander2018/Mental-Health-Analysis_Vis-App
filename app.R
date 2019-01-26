@@ -177,9 +177,7 @@ ui <- dashboardPage( # skin = "black",
               
       ),
       tabItem("about",
-              column(12,
                 includeMarkdown("./README.md")
-              )
       )
       
     )
