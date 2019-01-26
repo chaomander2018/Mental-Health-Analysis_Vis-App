@@ -2,6 +2,12 @@
 
 **Latest Update Date:** 2019 Jan
 
+# Overview 
+
+The [Shiny app](https://mru4913.shinyapps.io/Mental-Health-Analysis_Vis-App/) shows mental health programs effectiveness in Tech companies in 2014.
+
+Mental health issues have become one of the most important contributors to the burden of disease and disability in modern society, especially in workplaces. Understanding mental health at the tech workplaces would be helpful in order to foster a better work environment, increase productivity and reduce operating cost. This app allows users to explore a dataset to acquire whether employees actually benefit from the companies' mental health support program.
+
 # Team
 
 Instructor : Vincenzo Coia
@@ -23,11 +29,9 @@ Instructor : Vincenzo Coia
 |             |[Feedback to DSCI-532-wine-data](https://github.com/UBC-MDS/DSCI-532-wine-data/issues/10)|
 |             |[Writeup](https://github.com/UBC-MDS/Mental-Health-Analysis_Vis-App/blob/master/docs/m3_writeup.md)|
 
-# Overview 
 
-The Shiny app shows mental health programs effectiveness in Tech companies in 2014.
+# Data 
 
-<div align="center">
-<img src="./imgs/app2-dashboardpage.png" width="1000" height="500" alt="table"/>
-</div>
+This dataset is from a 2014 survey that measures attitudes towards mental health and frequency of mental health disorders in the tech workplace. 
 
+*Acknowledgements*：The original dataset is from Open Sourcing Mental Illness.
