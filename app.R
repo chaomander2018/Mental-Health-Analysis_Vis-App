@@ -41,7 +41,7 @@ ui <- dashboardPage( # skin = "black",
   
   # dashboardsidebar contains graph, data, and about page
   dashboardSidebar(
-    tags$h3("Mental Health programs Effectiveness in Tech Companies"),
+    tags$h3("Mental Health Programs Effectiveness in Tech Companies"),
     hr(),
     sidebarMenu(
       
@@ -227,7 +227,7 @@ server <- function(input, output) {
   output$box0 <- renderValueBox({
     valueBox(
       value = dim(graph_filter())[1],
-      subtitle = h4("Current Observation"),
+      subtitle = h4("Current Observations"),
       icon = icon("user-alt"),
       color = if (dim(graph_filter())[1] >= 1000) "orange" else "yellow"
     )
@@ -236,7 +236,7 @@ server <- function(input, output) {
   output$box1 <- renderValueBox({
     valueBox(
       value = length(unique(graph_filter()$Country)),
-      subtitle = h4("Current Country"),
+      subtitle = h4("Current Countries"),
       icon = icon("globe-americas"),
       color = if (length(unique(graph_filter()$Country)) >= 30) "purple" else "navy"
     )
@@ -288,8 +288,8 @@ server <- function(input, output) {
       selectInput("selectVariable", label = "Variable", 
                   choices = list("Gender" = "Gender",
                                  "Remote or In-office" = "remote_work",
-                                 "Self-employed or employees" = "self_employed", 
-                                 "Tech or non-tech company" = "tech_company"), 
+                                 "Self-employed or Employed" = "self_employed", 
+                                 "Tech or Non-tech company" = "tech_company"), 
                   selected = "Gender")
     }
   })
@@ -307,6 +307,16 @@ server <- function(input, output) {
       mytitle <- "How easy to take medical leave \n for a mental health condition"
     } else {
       mytitle <- "Does your employer provide \n mental health benefits?"
+    }
+    
+    if (input$selectVariable == "remote_work"){
+      my_xtitle <- "Remote or In-office"
+    } else if (input$selectVariable == "self_employed"){
+      my_xtitle <- "Self-employed or Employed"
+    } else if (input$selectVariable == "tech_company"){
+      my_xtitle <- "Tech or Non-tech company"
+    } else {
+      my_xtitle <- "Gender"
     }
     
     if (input$radioGraphType == "pie"){
@@ -330,15 +340,17 @@ server <- function(input, output) {
       p <- graph_filter() %>%
         ggplot(aes(x=!!sym(input$selectTopic), fill = !!sym(input$selectVariable))) +
         geom_bar(width = 0.8,  position = input$radioBarPos, colour="black", size=.1) +
+        scale_y_continuous(expand = c(0,0)) +
         theme_classic() +
-        labs(x = input$selectTopic,
-             y = "The count",
+        labs(x = my_xtitle,
+             y = "Count",
              title = mytitle) +
         theme(panel.grid.minor = element_blank(),
               plot.title = element_text(size = 19, hjust = 0.5,  family="American Typewriter", lineheight=1.2),
               plot.margin = margin(40, 2, 2, 2),
               axis.text.x = element_text(size = 8, face = "bold"),
               axis.text.y = element_text(size = 10),
+              axis.ticks.x = element_blank(),
               legend.title = element_blank(),
               legend.position = "top") +
         guides(fill=guide_legend(title=input$selectVariable))
@@ -476,9 +488,9 @@ server <- function(input, output) {
     } else { # default
       output_data <- tribble(
         ~Factor,    ~Description,
-        "Age",    "Age of participator",
-        "Gender", "Gender of participator",
-        "Country",    "Country of participator"
+        "Age",    "Age of participants",
+        "Gender", "Gender of participants",
+        "Country",    "Country of participants"
       )
     }
   }, options = list(pageLength = 5,
