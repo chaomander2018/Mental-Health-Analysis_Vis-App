@@ -5,8 +5,9 @@ account: mru4913
 server: shinyapps.io
 hostUrl: https://api.shinyapps.io/v1
 appId: 655966
-bundleId: 1824598
+bundleId: 1838972
 url: https://mru4913.shinyapps.io/Mental-Health-Analysis_Vis-App/
-when: 1547938805.62812
+when: 1548546565.99746
 asMultiple: FALSE
 asStatic: FALSE
+ignoredFiles: docs/m2_writeup.md|docs/m3_writeup.html|docs/m3_writeup.md|docs/proposal.md|docs/README.md|others/old.md|others/old2.md|others/shinyApp.xml|src/.DS_Store|src/00_clean_data.R|src/app.R|src/README.md
