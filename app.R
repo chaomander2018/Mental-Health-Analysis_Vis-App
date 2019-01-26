@@ -41,7 +41,7 @@ ui <- dashboardPage( # skin = "black",
   
   # dashboardsidebar contains graph, data, and about page
   dashboardSidebar(
-    tags$h3("Mental Health programs Effectiveness in Tech Companies"),
+    tags$h3("Mental Health Programs Effectiveness in Tech Companies"),
     hr(),
     sidebarMenu(
       
@@ -227,7 +227,7 @@ server <- function(input, output) {
   output$box0 <- renderValueBox({
     valueBox(
       value = dim(graph_filter())[1],
-      subtitle = h4("Current Observation"),
+      subtitle = h4("Current Observations"),
       icon = icon("user-alt"),
       color = if (dim(graph_filter())[1] >= 1000) "orange" else "yellow"
     )
@@ -236,7 +236,7 @@ server <- function(input, output) {
   output$box1 <- renderValueBox({
     valueBox(
       value = length(unique(graph_filter()$Country)),
-      subtitle = h4("Current Country"),
+      subtitle = h4("Current Countries"),
       icon = icon("globe-americas"),
       color = if (length(unique(graph_filter()$Country)) >= 30) "purple" else "navy"
     )
@@ -288,8 +288,8 @@ server <- function(input, output) {
       selectInput("selectVariable", label = "Variable", 
                   choices = list("Gender" = "Gender",
                                  "Remote or In-office" = "remote_work",
-                                 "Self-employed or employees" = "self_employed", 
-                                 "Tech or non-tech company" = "tech_company"), 
+                                 "Self-employed or Employed" = "self_employed", 
+                                 "Tech or Non-tech company" = "tech_company"), 
                   selected = "Gender")
     }
   })
@@ -339,6 +339,7 @@ server <- function(input, output) {
               plot.margin = margin(40, 2, 2, 2),
               axis.text.x = element_text(size = 8, face = "bold"),
               axis.text.y = element_text(size = 10),
+              axis.ticks.x = element_blank(),
               legend.title = element_blank(),
               legend.position = "top") +
         guides(fill=guide_legend(title=input$selectVariable))
@@ -476,9 +477,9 @@ server <- function(input, output) {
     } else { # default
       output_data <- tribble(
         ~Factor,    ~Description,
-        "Age",    "Age of participator",
-        "Gender", "Gender of participator",
-        "Country",    "Country of participator"
+        "Age",    "Age of participants",
+        "Gender", "Gender of participants",
+        "Country",    "Country of participants"
       )
     }
   }, options = list(pageLength = 5,
