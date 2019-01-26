@@ -153,7 +153,8 @@ ui <- dashboardPage( # skin = "black",
                                                           "Mental health condition",
                                                           "Workplace information",
                                                           "Organizational mental health supports",
-                                                          "Openness about mental health")
+                                                          "Openness about mental health",
+                                                          "All")
                                   ),
                                   radioButtons("display_button", "Display style:",
                                                list("Datatable", "Summary"),
@@ -401,20 +402,27 @@ server <- function(input, output) {
   # Data category filter
   data_filter <- reactive({
     if (input$data_category == "Mental health condition") {
-      output_data <- mental_cond 
+      output_data <- mental_cond %>%
+        select(-X1)
     } else if (input$data_category == "Workplace information") {
-      output_data <- work_info
+      output_data <- work_info %>%
+        select(-X1)
     } else if (input$data_category == "Organizational mental health supports"){
-      output_data <- mental_support
+      output_data <- mental_support %>%
+        select(-X1)
     } else if (input$data_category == "Openness about mental health") {
-      output_data <- Openness
+      output_data <- Openness %>%
+        select(-X1)
+    } else if (input$data_category == "All") {
+      output_data <- tidyall
     } else { # default 
-      output_data <- demo_info
+      output_data <- demo_info %>%
+        select(-X1)
     }
     
     # Generate output with index
-    output_data <- output_data %>%
-      select(-X1)
+    # output_data <- output_data %>%
+    #   select(-X1)
       # rename(index = X1) %>% 
       # mutate(index = as.integer(index))
   })
@@ -484,6 +492,12 @@ server <- function(input, output) {
         "phys_health_interview", "Would you bring up a physical health issue with a potential employer in an interview?",
         "mental_vs_physical", "Do you feel that your employer takes mental health as seriously as physical health?",
         "obs_consequence", "Have you heard of or observed negative consequences for coworkers with mental health conditions in your workplace?"
+      )
+    } else if (input$data_category == "All") {
+      output_data <- tribble(
+         ~Description,
+         "This dataset is from a 2014 survey that measures attitudes 
+         towards mental health and frequency of mental health disorders in the tech workplace."
       )
     } else { # default
       output_data <- tribble(
