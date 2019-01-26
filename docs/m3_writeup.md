@@ -67,11 +67,11 @@ A **message notification system** was implemented to help users better explore t
 
 <div align="center">
 <img src="../imgs/notification.png" width="350" height="200" alt="table"/>
-
+</div>
 
 A **warning system** was built to guide users to select available data range.
 
-
+<div align="center">
 <img src="../imgs/warning.png" width="350" height="200" alt="table"/>
 </div>
 
