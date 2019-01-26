@@ -129,14 +129,6 @@ ui <- navbarPage("C&A",
                           includeMarkdown("./README.md")
                    )
                  )
-        ),
-        
-        tabPanel("Functionality",
-                 fluidRow(
-                   column(12,
-                          includeMarkdown("../docs/m2_writeup.md")
-                   )
-                 )
         )
         
         # ============================================
