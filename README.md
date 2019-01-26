@@ -21,9 +21,13 @@ Instructor : Vincenzo Coia
 |        | [Shiny App Source Code](https://github.com/UBC-MDS/Mental-Health-Analysis_Vis-App/blob/master/src/app.R)|
 |Milestone 3.0|[Feedback to ellognea-ptung-mental-health](https://github.com/UBC-MDS/ellognea-ptung-mental-health/issues/31)|
 |             |[Feedback to DSCI-532-wine-data](https://github.com/UBC-MDS/DSCI-532-wine-data/issues/10)|
-|             |[Writeup]()|
+|             |[Writeup](https://github.com/UBC-MDS/Mental-Health-Analysis_Vis-App/blob/master/docs/m3_writeup.md)|
 
 # Overview 
 
+The Shiny app shows mental health programs effectiveness in Tech companies in 2014.
 
+<div align="center">
+<img src="./imgs/app2-dashboardpage.png" width="600" height="500" alt="table"/>
+</div>
 
