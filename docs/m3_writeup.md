@@ -78,13 +78,13 @@ A **warning system** was built to guide users to select available data range.
 On the data page, a **download button** was added for users to continue their work locally. We also implemented a **factor description table** in order to help users understand better.
 
 <div align="center">
-<img src="../imgs/collapse.png" alt="table"/>
+<img src="../imgs/app2-datapage.png" width="450" height="270" alt="table"/>
 </div>
 
 Both data filter panel and description table are **collapsible** to maintain a clean visualization.
 
 <div align="center">
-<img src="../imgs/app2-datapage.png" width="350" height="200" alt="table"/>
+<img src="../imgs/collapse.png" alt="table"/>
 </div>
 
 # 3.0 Conclusion
