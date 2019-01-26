@@ -63,19 +63,25 @@ Originally we focused on the demonstration on US survey results so that we aggre
 ### 2.3 Detail Enhancement
 
 
-A **message notification system** was implemented to help users better explore the application. For example, when users select a variable value, a message box will pop up offering descriptions to the corresponding variable. A warning system was built to guide users to select available data range.
+A **message notification system** was implemented to help users better explore the application. For example, when users select a variable value, a message box will pop up offering descriptions to the corresponding variable.
 
 <div align="center">
-<img src="../imgs/notification.png" width="200" height="100" alt="table"/>
+<img src="../imgs/notification.png" width="350" height="200" alt="table"/>
 
-<img src="../imgs/warning.png" width="500" height="400" alt="table"/>
+
+A **warning system** was built to guide users to select available data range.
+
+
+<img src="../imgs/warning.png" width="350" height="200" alt="table"/>
 </div>
 
-On the data page, a **download button** was added for users to continue their work locally. We also implemented a **factor description table** in order to help users understand better. Both data filter panel and description table are collapsible to maintain a clean visualization.
+On the data page, a **download button** was added for users to continue their work locally. We also implemented a **factor description table** in order to help users understand better.
 
 <div align="center">
 <img src="../imgs/collapse.png" alt="table"/>
 </div>
+
+Both data filter panel and description table are **collapsible** to maintain a clean visualization.
 
 <div align="center">
 <img src="../imgs/app2-datapage.png" alt="table"/>
