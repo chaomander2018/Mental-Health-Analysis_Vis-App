@@ -309,6 +309,16 @@ server <- function(input, output) {
       mytitle <- "Does your employer provide \n mental health benefits?"
     }
     
+    if (input$selectVariable == "remote_work"){
+      my_xtitle <- "Remote or In-office"
+    } else if (input$selectVariable == "self_employed"){
+      my_xtitle <- "Self-employed or Employed"
+    } else if (input$selectVariable == "tech_company"){
+      my_xtitle <- "Tech or Non-tech company"
+    } else {
+      my_xtitle <- "Gender"
+    }
+    
     if (input$radioGraphType == "pie"){
       
       pie_data <- graph_filter() %>%
@@ -330,9 +340,10 @@ server <- function(input, output) {
       p <- graph_filter() %>%
         ggplot(aes(x=!!sym(input$selectTopic), fill = !!sym(input$selectVariable))) +
         geom_bar(width = 0.8,  position = input$radioBarPos, colour="black", size=.1) +
+        scale_y_continuous(expand = c(0,0)) +
         theme_classic() +
-        labs(x = input$selectTopic,
-             y = "The count",
+        labs(x = my_xtitle,
+             y = "Count",
              title = mytitle) +
         theme(panel.grid.minor = element_blank(),
               plot.title = element_text(size = 19, hjust = 0.5,  family="American Typewriter", lineheight=1.2),
