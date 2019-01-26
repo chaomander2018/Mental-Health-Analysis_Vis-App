@@ -28,6 +28,6 @@ Instructor : Vincenzo Coia
 The Shiny app shows mental health programs effectiveness in Tech companies in 2014.
 
 <div align="center">
-<img src="./imgs/app2-dashboardpage.png" width="600" height="500" alt="table"/>
+<img src="./imgs/app2-dashboardpage.png" width="1000" height="500" alt="table"/>
 </div>
 
