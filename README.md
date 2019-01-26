@@ -34,4 +34,4 @@ Instructor : Vincenzo Coia
 
 This dataset is from a 2014 survey that measures attitudes towards mental health and frequency of mental health disorders in the tech workplace. 
 
-*Acknowledgements*：The original dataset is from Open Sourcing Mental Illness。
+*Acknowledgements*：The original dataset is from Open Sourcing Mental Illness.
