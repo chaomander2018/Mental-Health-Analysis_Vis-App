@@ -15,6 +15,7 @@ suppressPackageStartupMessages(library(shinyWidgets))
 suppressPackageStartupMessages(library(tidyverse))
 suppressPackageStartupMessages(library(plotly))
 suppressPackageStartupMessages(library(shinydashboard))
+suppressPackageStartupMessages(library(DT))
 # suppressPackageStartupMessages(library(shinyBS))
 
 
@@ -129,37 +130,55 @@ ui <- dashboardPage( # skin = "black",
       # The data table page that contains datatable and data filter 
       tabItem("rawdata",
               fluidRow(height = 100,
-                       box(width = 8, 
-                           status = "primary",
-                           title = "Raw data",
-                           solidHeader = TRUE,
-                           dataTableOutput("data_table"),
-                           verbatimTextOutput("summary")
+                       column(8,
+                              box(width = 13, 
+                                  status = "primary",
+                                  title = "Raw data",
+                                  solidHeader = TRUE,
+                                  dataTableOutput("data_table"),
+                                  verbatimTextOutput("summary")
+                              )
                        ),
-                       box(
-                         width = 4, 
-                         status = "primary",
-                         title = "Data Filter",
-                         solidHeader = TRUE,
-                         collapsible = TRUE,
-                         # Select data category
-                         selectInput("data_category", "Data Category: ", 
-                                     choices = c("Demographic information",
-                                                 "Mental health condition",
-                                                 "Workplace information",
-                                                 "Organizational mental health supports",
-                                                 "Openness about mental health")
-                         ),
-                         radioButtons("display_button", "Display style:",
-                                      list("Datatable", "Summary"),
-                                      selected = "Datatable", inline = TRUE, width='100%'),
-                         downloadButton("downloadCsv", "Download as CSV")
+                       column(4, 
+                              fluidRow(
+                                box(
+                                  width = 13, 
+                                  status = "primary",
+                                  title = "Data Filter",
+                                  solidHeader = TRUE,
+                                  collapsible = TRUE,
+                                  # Select data category
+                                  selectInput("data_category", "Data Category: ", 
+                                              choices = c("Demographic information",
+                                                          "Mental health condition",
+                                                          "Workplace information",
+                                                          "Organizational mental health supports",
+                                                          "Openness about mental health")
+                                  ),
+                                  radioButtons("display_button", "Display style:",
+                                               list("Datatable", "Summary"),
+                                               selected = "Datatable", inline = TRUE, width='100%'),
+                                  
+                                  downloadButton("downloadCsv", "Download as CSV")
+                                )),
+                              fluidRow(
+                                  box(
+                                    width = 13, 
+                                    status = "primary",
+                                    title = "Description",
+                                    solidHeader = TRUE,
+                                    collapsible = TRUE,
+                                    collapsed = TRUE,
+                                    # Select data category
+                                    dataTableOutput("descriptionVar")
+                                )
+                              )
                        )
               )
               
       ),
       tabItem("about",
-              fluidPage(
+              fluidPage(12,
               includeMarkdown("./README.md")
               )
       )
@@ -385,8 +404,9 @@ server <- function(input, output) {
     
     # Generate output with index
     output_data <- output_data %>%
-      rename(index = X1) %>% 
-      mutate(index = as.integer(index))
+      select(-X1)
+      # rename(index = X1) %>% 
+      # mutate(index = as.integer(index))
   })
   
   # Download hander 
@@ -406,11 +426,10 @@ server <- function(input, output) {
   }, 
   options = list(pageLength = 10,
                  dom = 'lftipr', 
-                 scrollY = 500,
+                 scrollY = 580,
                  scroller = TRUE,
-                 scrollX = TRUE
-                 
-  ))
+                 scrollX = TRUE)
+  )
   
   # render the summary 
   output$summary <- renderPrint({
@@ -418,6 +437,59 @@ server <- function(input, output) {
       summary(data_filter())
     }
   })
+  
+  output$descriptionVar <- renderDataTable({
+    if (input$data_category == "Mental health condition") {
+      output_data <- tribble(
+        ~Factor,    ~Description,
+        "family_history",    "Do you have a family history of mental illness?",
+        "treatment", "Have you sought treatment for a mental health condition?",
+        "work_interfere",    "If you have a mental health condition, do you feel that it interferes with your work?"
+      )
+    } else if (input$data_category == "Workplace information") {
+      output_data <- tribble(
+        ~Factor,    ~Description,
+        "self_employed",    "Are you self-employed?",
+        "no_employees", "How many employees does your company or organization have?",
+        "remote_work",    "Do you work remotely (outside of an office) at least 50% of the time?",
+        "tech_company", "Is your employer primarily a tech company/organization?"
+      )
+    } else if (input$data_category == "Organizational mental health supports"){
+      output_data <- tribble(
+        ~Factor,    ~Description,
+        "benefits",    "Does your employer provide mental health benefits?",
+        "care_options", "Do you know the options for mental health care your employer provides?",
+        "wellness_program",    "Does your employer provide resources to learn more about mental health issues and how to seek help?",
+        "anonymity", "Is your anonymity protected if you choose to take advantage of mental health or substance abuse treatment resources?",
+        "leave", "How easy is it for you to take medical leave for a mental health condition?"
+      )
+    } else if (input$data_category == "Openness about mental health") {
+      output_data <- tribble(
+        ~Factor,    ~Description,
+        "mental_health_consequence",    "Do you think that discussing a mental health issue with your employer would have negative consequences?",
+        "phys_health_consequence", "Do you think that discussing a physical health issue with your employer would have negative consequences?",
+        "coworkers",    "Would you be willing to discuss a mental health issue with your coworkers?",
+        "supervisor",    "Would you be willing to discuss a mental health issue with your direct supervisor(s)?",
+        "mental_health_interview", "Would you bring up a mental health issue with a potential employer in an interview?",
+        "phys_health_interview", "Would you bring up a physical health issue with a potential employer in an interview?",
+        "mental_vs_physical", "Do you feel that your employer takes mental health as seriously as physical health?",
+        "obs_consequence", "Have you heard of or observed negative consequences for coworkers with mental health conditions in your workplace?"
+      )
+    } else { # default
+      output_data <- tribble(
+        ~Factor,    ~Description,
+        "Age",    "Age of participator",
+        "Gender", "Gender of participator",
+        "Country",    "Country of participator"
+      )
+    }
+  }, options = list(pageLength = 5,
+                    lengthMenu = c(3),
+                    dom = 'tp',
+                    searching = FALSE,
+                    scrollY = 320,
+                    scroller = TRUE)
+  )
   
   # render the structure
   # output$structure <- renderPrint({
