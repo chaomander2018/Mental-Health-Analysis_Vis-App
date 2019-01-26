@@ -18,12 +18,12 @@ suppressPackageStartupMessages(library(plotly))
 
 
 # Prepare data
-demo_info <- read_csv("./data/01_demo_info.csv")
-mental_cond <- read_csv("./data/02_mh_condition.csv")
-work_info <- read_csv("./data/03_workplace_info.csv")
-mental_support <- read_csv("./data/04_org_support.csv")
-Openness <- read_csv("./data/05_openness_about_mh.csv")
-tidyall <- read_csv("./data/06_data_tidy.csv")
+demo_info <- read_csv("../data/01_demo_info.csv")
+mental_cond <- read_csv("../data/02_mh_condition.csv")
+work_info <- read_csv("../data/03_workplace_info.csv")
+mental_support <- read_csv("../data/04_org_support.csv")
+Openness <- read_csv("../data/05_openness_about_mh.csv")
+tidyall <- read_csv("../data/06_data_tidy.csv")
 
 
 ##################################################
