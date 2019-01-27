@@ -28,6 +28,7 @@ Instructor : Vincenzo Coia
 |Milestone 3.0|[Feedback to ellognea-ptung-mental-health](https://github.com/UBC-MDS/ellognea-ptung-mental-health/issues/31)|
 |             |[Feedback to DSCI-532-wine-data](https://github.com/UBC-MDS/DSCI-532-wine-data/issues/10)|
 |             |[Writeup](https://github.com/UBC-MDS/Mental-Health-Analysis_Vis-App/blob/master/docs/m3_writeup.md)|
+|             |[Deployed Shiny App(2.0)](https://mru4913.shinyapps.io/Mental-Health-Analysis_Vis-App/)|
 
 
 # Data 
