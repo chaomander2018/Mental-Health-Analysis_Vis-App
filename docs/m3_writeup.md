@@ -89,7 +89,7 @@ Both data filter panel and description table are **collapsible** to maintain a c
 
 # 3.0 Conclusion
 
-In conclusion, the object of our app remains the same and we have significantly improved the functionality and the visualization of our app based on the useful feedbacks received from our peers and TAs. We built a complete new version of our application including a dashboard page. We provided more options for users to customize their web page by implementing a age slider and a country selector as well as removed the ambiguity. A notification and warning system are embedded to offer more guidance to users. Lastly, we re-organized our widgets to enhance the aesthetic of the app.
+In conclusion, the object of our app remains the same and we have significantly improved the functionality and the visualization of our app based on the useful feedbacks received from our peers and TAs. We built a new version of our application including a dashboard page. We provided more options for users to customize their web page by implementing a age slider and a country selector as well as removed the ambiguity. A notification and warning system are embedded to offer more guidance to users. Lastly, we re-organized our widgets to enhance the aesthetic of the app.
 
 # 4.0 Reference
 
