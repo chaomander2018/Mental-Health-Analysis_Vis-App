@@ -10,41 +10,48 @@
 ##################################################
 
 
+##################################################
+## Section: libraries
+##################################################
 suppressPackageStartupMessages(library(shiny))
-suppressPackageStartupMessages(library(shinyWidgets))
-suppressPackageStartupMessages(library(tidyverse))
-suppressPackageStartupMessages(library(plotly))
 suppressPackageStartupMessages(library(shinydashboard))
+suppressPackageStartupMessages(library(shinyalert))
 suppressPackageStartupMessages(library(DT))
+suppressPackageStartupMessages(library(plotly))
+# suppressPackageStartupMessages(library(shinyWidgets))
+suppressPackageStartupMessages(library(tidyverse))
+suppressPackageStartupMessages(library(summarytools))
+suppressPackageStartupMessages(library(RColorBrewer))
 # suppressPackageStartupMessages(library(shinyBS))
 
 
-# Prepare data
+##################################################
+## Section: Data 
+##################################################
 demo_info <- read_csv("./data/01_demo_info.csv")
 mental_cond <- read_csv("./data/02_mh_condition.csv")
 work_info <- read_csv("./data/03_workplace_info.csv")
 mental_support <- read_csv("./data/04_org_support.csv")
 Openness <- read_csv("./data/05_openness_about_mh.csv")
-tidyall <- read_csv("./data/06_data_tidy.csv")
+all_tidy_data <- read_csv("./data/06_data_tidy.csv")
+unique_country <- sort(unique(demo_info$Country))
+min_age <- min(demo_info$Age)
+max_age <- max(demo_info$Age)
+
 
 ##################################################
 ## Section: UI layout
 ##################################################
-
-# Define UI for application
 ui <- dashboardPage( # skin = "black", 
   
   dashboardHeader(title = "C&A Inc."
   ),
-  
-  
   
   # dashboardsidebar contains graph, data, and about page
   dashboardSidebar(
     tags$h3("Mental Health Programs Effectiveness in Tech Companies"),
     hr(),
     sidebarMenu(
-      
       menuItem("Graph", tabName = "graph", icon = icon("bar-chart-o")
       ),
       menuItem("Raw data", tabName = "rawdata", icon = icon("th")
@@ -54,17 +61,21 @@ ui <- dashboardPage( # skin = "black",
       br(),
       br(),
       # Help button 
-      actionLink(inputId='ab1', 
-                 label=paste("   ","More info"),
+      actionLink(inputId='', 
+                 label=paste("   ","Project Home"),
                  icon = icon("github"),
-                 onclick ="window.open('https://github.com/UBC-MDS/Mental-Health-Analysis_Vis-App', '_blank')")
+                 onclick = "window.open('https://github.com/UBC-MDS/Mental-Health-Analysis_Vis-App', '_blank')"
+                 )
       
     )
     
   ),
   
   
+  # The main body of dashboard 
   dashboardBody(
+    
+    useShinyalert(),
     
     tabItems(
       # the main graph panel contains valuebox, grpah and graph filter 
@@ -109,14 +120,22 @@ ui <- dashboardPage( # skin = "black",
                                                     "4. How easy is it for you to take medical leave for a mental health condition?" = "leave"), 
                                      selected = "benefits"),
                          hr(),
-                         materialSwitch("checkCountry", label = "Country", status = "primary", right = TRUE),
-                         uiOutput("uiCountry"),
-                         sliderInput("sliderAge", label = "Age range", min = 16, 
-                                     max = 72, value = c(16, 72)),
+                         # materialSwitch("switchCountry", label = "Country", status = "primary", right = TRUE),
+                         # uiOutput("uiCountry"),
+                         pickerInput('selectCountry', 'Select Country', unique_country,  
+                                     selected = unique_country, multiple = TRUE,
+                                     options = list("actions-box" = TRUE,
+                                                    "dropdownAlignRight" = TRUE,
+                                                    "liveSearch" = TRUE,
+                                                    "dropupAuto" = FALSE,
+                                                    "none-selected-text" = "None")),
+                         sliderInput("sliderAge", label = "Age range", 
+                                     min = min_age,  max = max_age, 
+                                     value = c(min_age, max_age)),
                          plotOutput("histAge", height = 100),
-                         
                          hr(),
-                         radioButtons("radioGraphType", label = "Graph type",
+                         radioButtons("radioGraphType", 
+                                      label = "Graph type",
                                       choices = list("Bar graph" = "bar", 
                                                      "Pie graph" = "pie"), 
                                       selected = "bar", inline = TRUE),
@@ -136,7 +155,11 @@ ui <- dashboardPage( # skin = "black",
                                   title = "Raw data",
                                   solidHeader = TRUE,
                                   dataTableOutput("data_table"),
-                                  verbatimTextOutput("summary")
+                                  # verbatimTextOutput("summary")
+                                  wellPanel(id = "tPanel", 
+                                            style = "overflow-y:scroll; max-height: 700px",
+                                            uiOutput("summaryTable")
+                                            )
                               )
                        ),
                        column(4, 
@@ -148,7 +171,7 @@ ui <- dashboardPage( # skin = "black",
                                   solidHeader = TRUE,
                                   collapsible = TRUE,
                                   # Select data category
-                                  selectInput("data_category", "Data Category: ", 
+                                  selectInput("selectReport", "Reports: ", 
                                               choices = c("Demographic information",
                                                           "Mental health condition",
                                                           "Workplace information",
@@ -160,7 +183,7 @@ ui <- dashboardPage( # skin = "black",
                                                list("Datatable", "Summary"),
                                                selected = "Datatable", inline = TRUE, width='100%'),
                                   
-                                  downloadButton("downloadCsv", "Download as CSV")
+                                  downloadButton("downloadCsv", "Download Raw Data as CSV")
                                 )),
                               fluidRow(
                                   box(
@@ -169,13 +192,14 @@ ui <- dashboardPage( # skin = "black",
                                     collapsible = TRUE,
                                     collapsed = TRUE,
                                     # Select data category
-                                    dataTableOutput("descriptionVar")
+                                    dataTableOutput("descriptionTable")
                                 )
                               )
                        )
               )
               
       ),
+      # The about page
       tabItem("about",
                 includeMarkdown("./README.md")
       )
@@ -188,7 +212,6 @@ ui <- dashboardPage( # skin = "black",
 ##################################################
 ## Section: Server layout
 ##################################################
-# Define server logic required to draw a histogram
 server <- function(input, output) {
   
   # ==================================================
@@ -198,14 +221,8 @@ server <- function(input, output) {
   # filter data used in graph
   graph_filter <- reactive ({
     
-    if(input$checkCountry == FALSE){
-      output_graph_data <- tidyall
-    } else {
-      output_graph_data <- tidyall %>%
-        filter(Country %in% input$selectCountry)
-    }
-    
-    output_graph_data <- output_graph_data %>%
+    output_graph_data <- all_tidy_data %>%
+      filter(Country %in% input$selectCountry) %>%
       filter(Age >= input$sliderAge[1],  Age <= input$sliderAge[2])
     
   })
@@ -232,6 +249,7 @@ server <- function(input, output) {
     )
   })
   
+  # print the the number of countries used
   output$box1 <- renderValueBox({
     valueBox(
       value = length(unique(graph_filter()$Country)),
@@ -251,18 +269,18 @@ server <- function(input, output) {
   # })
   
   # output selector for country 
-  output$uiCountry <- renderUI({
-    if (input$checkCountry == FALSE)
-      return()
-    
-    pickerInput('selectCountry', 'Select Country', sort(unique(demo_info$Country)),  
-                selected = "United States", multiple = TRUE,
-                options = list("actions-box" = TRUE,
-                               "dropdownAlignRight" = TRUE,
-                               "liveSearch" = TRUE,
-                               "dropupAuto" = FALSE,
-                               "none-selected-text" = "None"))
-  })
+  # output$uiCountry <- renderUI({
+  #   if (input$switchCountry == FALSE)
+  #     return()
+  #   
+  #   pickerInput('selectCountry', 'Select Country', sort(unique(demo_info$Country)),  
+  #               selected = "United States", multiple = TRUE,
+  #               options = list("actions-box" = TRUE,
+  #                              "dropdownAlignRight" = TRUE,
+  #                              "liveSearch" = TRUE,
+  #                              "dropupAuto" = FALSE,
+  #                              "none-selected-text" = "None"))
+  # })
   
   # output bar position radio buttion 
   output$uiBarPosition <- renderUI({
@@ -270,7 +288,7 @@ server <- function(input, output) {
       return()
     
     if (input$radioGraphType == "bar" ) {
-      radioButtons("radioBarPos", label = "Bar position",
+      radioButtons("radioBarPosition", label = "Bar position (Bar Chart Only)",
                    choices = list("Dodge" = "dodge",
                                   "Stack" = "stack"),
                    selected = "dodge", inline = TRUE) 
@@ -284,7 +302,7 @@ server <- function(input, output) {
       return()
     
     if (input$radioGraphType == "bar" ) {
-      selectInput("selectVariable", label = "Variable", 
+      selectInput("selectVariable", label = "Variable (Bar Chart Only)", 
                   choices = list("Gender" = "Gender",
                                  "Remote or In-office" = "remote_work",
                                  "Self-employed or Employed" = "self_employed", 
@@ -293,9 +311,9 @@ server <- function(input, output) {
     }
   })
   
-  # construct the plot 
-  constructe_plot <- reactive({
-    if (is.null(input$radioBarPos))
+  # build the plot 
+  build_plot <- reactive({
+    if (is.null(input$radioBarPosition))
       return()
     
     if (input$selectTopic == "care_options"){
@@ -305,7 +323,7 @@ server <- function(input, output) {
     } else if (input$selectTopic == "leave") {
       mytitle <- "How easy to take medical leave \n for a mental health condition"
     } else {
-      mytitle <- "Does your employer provide \n mental health benefits?"
+      mytitle <- "Does your employer provide mental health benefits?"
     }
     
     if (input$selectVariable == "remote_work"){
@@ -325,10 +343,12 @@ server <- function(input, output) {
         summarise (n = n()) %>%
         mutate(new_labels = as.factor(!!sym(input$selectTopic)))
       
-      p <- plot_ly(pie_data,  labels = ~new_labels, values = ~n, type = 'pie') %>%
+      my_plot <- plot_ly(pie_data,  labels = ~new_labels, values = ~n, type = 'pie') %>%
         layout(title = mytitle,
                height = 560,
-               font= list(family = "American Typewriter", size = 17, color = 'black'),
+               font= list(family = "Arial", 
+                          size = 17, 
+                          color = 'black'),
                xaxis = list(showgrid = FALSE, zeroline = FALSE, showticklabels = FALSE),
                yaxis = list(showgrid = FALSE, zeroline = FALSE, showticklabels = FALSE),
                margin = list(l = 100, r = 2, b = 2, t = 85, pad = 4)
@@ -336,17 +356,21 @@ server <- function(input, output) {
       
     } else {
       
-      p <- graph_filter() %>%
+      my_plot <- graph_filter() %>%
         ggplot(aes(x=!!sym(input$selectTopic), fill = !!sym(input$selectVariable))) +
-        geom_bar(width = 0.8,  position = input$radioBarPos, colour="black", size=.1) +
+        geom_bar(width = 0.8,  position = input$radioBarPosition, colour="black", size=.1, alpha = 0.82) +
         scale_y_continuous(expand = c(0,0)) +
         theme_classic() +
         labs(x = my_xtitle,
              y = "Count",
              title = mytitle) +
+        scale_colour_brewer(palette = "Set1",aesthetics = "fill") +
         theme(panel.grid.minor = element_blank(),
-              plot.title = element_text(size = 19, hjust = 0.5,  family="American Typewriter", lineheight=1.2),
-              plot.margin = margin(40, 2, 2, 2),
+              plot.title = element_text(size = 19, 
+                                        hjust = 0.5,  
+                                        family="Arial", 
+                                        lineheight=1.2),
+              plot.margin = margin(45, 0, 0, 0),
               axis.text.x = element_text(size = 8, face = "bold"),
               axis.text.y = element_text(size = 10),
               axis.ticks.x = element_blank(),
@@ -357,14 +381,24 @@ server <- function(input, output) {
     }
   })
   
+  # render the plot 
   output$row_1_l <- renderPlotly({
-    if (!is.null(input$radioBarPos)){
-      p <- constructe_plot()
-      ggplotly(p, height = 560)  %>% layout(legend =list(size = 20))
+    if (!is.null(input$radioBarPosition)){
+      
+      if(input$radioGraphType == "pie"){
+        my_plot <- build_plot()
+      } else {
+        my_plot <- build_plot()
+        ggplotly(my_plot, height = 560) %>% 
+          layout(
+            margin =  list(l = 0,r = 0,b = 40,t = 90, pad = 4)
+            )
+      }
+      
     }
   })
   
-  
+  # notification system 
   observeEvent(input$selectVariable, {
     if (input$selectVariable == "Gender"){
       showNotification("Gender (categorical) that contains cis_female,  cis_male, trans_female, 
@@ -380,15 +414,18 @@ server <- function(input, output) {
     }
     })
   
+  # warning system
   observeEvent(input$selectCountry, {
-    if (is.null(input$selectCountry) && input$checkCountry == TRUE) {
-      showNotification("Sry, there is no data available : (", type = "warning", duration = 4)
+    if (is.null(input$selectCountry)) { # && input$switchCountry == TRUE
+      # showNotification("Sry, there is no data available : (", type = "warning", duration = 4)
+      shinyalert("Oops", "Please select more countries.", type = "warning", timer = 1500)
     }
   }, ignoreNULL = FALSE)
   
   observeEvent(input$sliderAge, {
     if (nrow(graph_filter()) == 0 && input$radioGraphType == "bar"){
-      showNotification("Oops, please try different age range.", type = "warning", duration = 5)
+      # showNotification("Oops, please try different age range.", type = "warning", duration = 5)
+      shinyalert("Oops", "please try different age range.", type = "error", timer = 3000)
     }
   })
   
@@ -399,28 +436,23 @@ server <- function(input, output) {
   
   # Data category filter
   data_filter <- reactive({
-    if (input$data_category == "Mental health condition") {
-      output_data <- mental_cond %>%
-        select(-X1)
-    } else if (input$data_category == "Workplace information") {
-      output_data <- work_info %>%
-        select(-X1)
-    } else if (input$data_category == "Organizational mental health supports"){
-      output_data <- mental_support %>%
-        select(-X1)
-    } else if (input$data_category == "Openness about mental health") {
-      output_data <- Openness %>%
-        select(-X1)
-    } else if (input$data_category == "All") {
-      output_data <- tidyall
+    if (input$selectReport == "Mental health condition") {
+      output_data <- mental_cond 
+    } else if (input$selectReport == "Workplace information") {
+      output_data <- work_info 
+    } else if (input$selectReport == "Organizational mental health supports"){
+      output_data <- mental_support 
+    } else if (input$selectReport == "Openness about mental health") {
+      output_data <- Openness 
+    } else if (input$selectReport == "All") {
+      output_data <- all_tidy_data
     } else { # default 
-      output_data <- demo_info %>%
-        select(-X1)
+      output_data <- demo_info 
     }
     
     # Generate output with index
-    # output_data <- output_data %>%
-    #   select(-X1)
+    output_data <- output_data %>%
+      select(-X1)
       # rename(index = X1) %>% 
       # mutate(index = as.integer(index))
   })
@@ -435,11 +467,12 @@ server <- function(input, output) {
   )
   
   # render the table
-  output$data_table <- renderDataTable({
+  output$data_table <- DT:: renderDataTable({
     if (input$display_button == "Datatable") {
       data_filter()
     }
   }, 
+  filter = 'top', 
   options = list(pageLength = 10,
                  dom = 'lftipr', 
                  scrollY = 570,
@@ -448,21 +481,24 @@ server <- function(input, output) {
   )
   
   # render the summary 
-  output$summary <- renderPrint({
+  output$summaryTable <- renderUI({
     if (input$display_button == "Summary"){
-      print(summary(data_filter()))
+      view(dfSummary(data_filter()), 
+           method = 'render',
+           bootstrap.css = FALSE)
     }
   })
   
-  output$descriptionVar <- renderDataTable({
-    if (input$data_category == "Mental health condition") {
+  # render description table 
+  output$descriptionTable <- DT::renderDataTable({
+    if (input$selectReport == "Mental health condition") {
       output_data <- tribble(
         ~Factor,    ~Description,
         "family_history",    "Do you have a family history of mental illness?",
         "treatment", "Have you sought treatment for a mental health condition?",
         "work_interfere",    "If you have a mental health condition, do you feel that it interferes with your work?"
       )
-    } else if (input$data_category == "Workplace information") {
+    } else if (input$selectReport == "Workplace information") {
       output_data <- tribble(
         ~Factor,    ~Description,
         "self_employed",    "Are you self-employed?",
@@ -470,7 +506,7 @@ server <- function(input, output) {
         "remote_work",    "Do you work remotely (outside of an office) at least 50% of the time?",
         "tech_company", "Is your employer primarily a tech company/organization?"
       )
-    } else if (input$data_category == "Organizational mental health supports"){
+    } else if (input$selectReport == "Organizational mental health supports"){
       output_data <- tribble(
         ~Factor,    ~Description,
         "benefits",    "Does your employer provide mental health benefits?",
@@ -479,7 +515,7 @@ server <- function(input, output) {
         "anonymity", "Is your anonymity protected if you choose to take advantage of mental health or substance abuse treatment resources?",
         "leave", "How easy is it for you to take medical leave for a mental health condition?"
       )
-    } else if (input$data_category == "Openness about mental health") {
+    } else if (input$selectReport == "Openness about mental health") {
       output_data <- tribble(
         ~Factor,    ~Description,
         "mental_health_consequence",    "Do you think that discussing a mental health issue with your employer would have negative consequences?",
@@ -491,7 +527,7 @@ server <- function(input, output) {
         "mental_vs_physical", "Do you feel that your employer takes mental health as seriously as physical health?",
         "obs_consequence", "Have you heard of or observed negative consequences for coworkers with mental health conditions in your workplace?"
       )
-    } else if (input$data_category == "All") {
+    } else if (input$selectReport == "All") {
       output_data <- tribble(
          ~Description,
          "This dataset is from a 2014 survey that measures attitudes 
@@ -505,7 +541,9 @@ server <- function(input, output) {
         "Country",    "Country of participants"
       )
     }
-  }, options = list(pageLength = 5,
+  }, 
+  rownames= FALSE,
+  options = list(pageLength = 5,
                     lengthMenu = c(3),
                     dom = 'tp',
                     searching = FALSE,
@@ -520,12 +558,10 @@ server <- function(input, output) {
   #   }
   # })
   
-  
   }
 
 ##################################################
 ## Section: run app
 ##################################################
-# Run the application 
 shinyApp(ui = ui, server = server)
 
