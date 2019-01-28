@@ -14,13 +14,14 @@
 ## Section: libraries
 ##################################################
 suppressPackageStartupMessages(library(shiny))
+suppressPackageStartupMessages(library(shinydashboard))
+suppressPackageStartupMessages(library(shinyalert))
+suppressPackageStartupMessages(library(DT))
+suppressPackageStartupMessages(library(plotly))
 # suppressPackageStartupMessages(library(shinyWidgets))
 suppressPackageStartupMessages(library(tidyverse))
 suppressPackageStartupMessages(library(summarytools))
-suppressPackageStartupMessages(library(plotly))
-suppressPackageStartupMessages(library(shinydashboard))
-suppressPackageStartupMessages(library(DT))
-suppressPackageStartupMessages(library(shinyalert))
+suppressPackageStartupMessages(library(RColorBrewer))
 # suppressPackageStartupMessages(library(shinyBS))
 
 
@@ -34,7 +35,8 @@ mental_support <- read_csv("./data/04_org_support.csv")
 Openness <- read_csv("./data/05_openness_about_mh.csv")
 all_tidy_data <- read_csv("./data/06_data_tidy.csv")
 unique_country <- sort(unique(demo_info$Country))
-
+min_age <- min(demo_info$Age)
+max_age <- max(demo_info$Age)
 
 
 ##################################################
@@ -127,7 +129,9 @@ ui <- dashboardPage( # skin = "black",
                                                     "liveSearch" = TRUE,
                                                     "dropupAuto" = FALSE,
                                                     "none-selected-text" = "None")),
-                         sliderInput("sliderAge", label = "Age range", min = 18,  max = 72, value = c(18, 72)),
+                         sliderInput("sliderAge", label = "Age range", 
+                                     min = min_age,  max = max_age, 
+                                     value = c(min_age, max_age)),
                          plotOutput("histAge", height = 100),
                          hr(),
                          radioButtons("radioGraphType", 
@@ -284,7 +288,7 @@ server <- function(input, output) {
       return()
     
     if (input$radioGraphType == "bar" ) {
-      radioButtons("radioBarPosition", label = "Bar position",
+      radioButtons("radioBarPosition", label = "Bar position (Bar Chart Only)",
                    choices = list("Dodge" = "dodge",
                                   "Stack" = "stack"),
                    selected = "dodge", inline = TRUE) 
@@ -319,7 +323,7 @@ server <- function(input, output) {
     } else if (input$selectTopic == "leave") {
       mytitle <- "How easy to take medical leave \n for a mental health condition"
     } else {
-      mytitle <- "Does your employer provide \n mental health benefits?"
+      mytitle <- "Does your employer provide mental health benefits?"
     }
     
     if (input$selectVariable == "remote_work"){
@@ -342,7 +346,9 @@ server <- function(input, output) {
       my_plot <- plot_ly(pie_data,  labels = ~new_labels, values = ~n, type = 'pie') %>%
         layout(title = mytitle,
                height = 560,
-               font= list(family = "American Typewriter", size = 17, color = 'black'),
+               font= list(family = "Arial", 
+                          size = 17, 
+                          color = 'black'),
                xaxis = list(showgrid = FALSE, zeroline = FALSE, showticklabels = FALSE),
                yaxis = list(showgrid = FALSE, zeroline = FALSE, showticklabels = FALSE),
                margin = list(l = 100, r = 2, b = 2, t = 85, pad = 4)
@@ -352,15 +358,19 @@ server <- function(input, output) {
       
       my_plot <- graph_filter() %>%
         ggplot(aes(x=!!sym(input$selectTopic), fill = !!sym(input$selectVariable))) +
-        geom_bar(width = 0.8,  position = input$radioBarPosition, colour="black", size=.1) +
+        geom_bar(width = 0.8,  position = input$radioBarPosition, colour="black", size=.1, alpha = 0.82) +
         scale_y_continuous(expand = c(0,0)) +
         theme_classic() +
         labs(x = my_xtitle,
              y = "Count",
              title = mytitle) +
+        scale_colour_brewer(palette = "Set1",aesthetics = "fill") +
         theme(panel.grid.minor = element_blank(),
-              plot.title = element_text(size = 19, hjust = 0.5,  family="American Typewriter", lineheight=1.2),
-              plot.margin = margin(40, 2, 2, 2),
+              plot.title = element_text(size = 19, 
+                                        hjust = 0.5,  
+                                        family="Arial", 
+                                        lineheight=1.2),
+              plot.margin = margin(45, 0, 0, 0),
               axis.text.x = element_text(size = 8, face = "bold"),
               axis.text.y = element_text(size = 10),
               axis.ticks.x = element_blank(),
@@ -374,8 +384,17 @@ server <- function(input, output) {
   # render the plot 
   output$row_1_l <- renderPlotly({
     if (!is.null(input$radioBarPosition)){
-      my_plot <- build_plot()
-      ggplotly(my_plot, height = 560)  %>% layout(legend =list(size = 20))
+      
+      if(input$radioGraphType == "pie"){
+        my_plot <- build_plot()
+      } else {
+        my_plot <- build_plot()
+        ggplotly(my_plot, height = 560) %>% 
+          layout(
+            margin =  list(l = 0,r = 0,b = 40,t = 90, pad = 4)
+            )
+      }
+      
     }
   })
   
@@ -399,14 +418,14 @@ server <- function(input, output) {
   observeEvent(input$selectCountry, {
     if (is.null(input$selectCountry)) { # && input$switchCountry == TRUE
       # showNotification("Sry, there is no data available : (", type = "warning", duration = 4)
-      shinyalert("Oops", "Please select more countries.", type = "warning", timer = 1600)
+      shinyalert("Oops", "Please select more countries.", type = "warning", timer = 1500)
     }
   }, ignoreNULL = FALSE)
   
   observeEvent(input$sliderAge, {
     if (nrow(graph_filter()) == 0 && input$radioGraphType == "bar"){
       # showNotification("Oops, please try different age range.", type = "warning", duration = 5)
-      shinyalert("Oops", "please try different age range.", type = "error", timer = 4000)
+      shinyalert("Oops", "please try different age range.", type = "error", timer = 3000)
     }
   })
   
