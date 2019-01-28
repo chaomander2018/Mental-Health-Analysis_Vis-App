@@ -10,6 +10,9 @@
 ##################################################
 
 
+##################################################
+## Section: libraries
+##################################################
 suppressPackageStartupMessages(library(shiny))
 suppressPackageStartupMessages(library(shinyWidgets))
 suppressPackageStartupMessages(library(tidyverse))
@@ -19,13 +22,17 @@ suppressPackageStartupMessages(library(DT))
 # suppressPackageStartupMessages(library(shinyBS))
 
 
-# Prepare data
+##################################################
+## Section: Data 
+##################################################
 demo_info <- read_csv("./data/01_demo_info.csv")
 mental_cond <- read_csv("./data/02_mh_condition.csv")
 work_info <- read_csv("./data/03_workplace_info.csv")
 mental_support <- read_csv("./data/04_org_support.csv")
 Openness <- read_csv("./data/05_openness_about_mh.csv")
 tidyall <- read_csv("./data/06_data_tidy.csv")
+
+
 
 ##################################################
 ## Section: UI layout
@@ -34,10 +41,9 @@ tidyall <- read_csv("./data/06_data_tidy.csv")
 # Define UI for application
 ui <- dashboardPage( # skin = "black", 
   
+  
   dashboardHeader(title = "C&A Inc."
   ),
-  
-  
   
   # dashboardsidebar contains graph, data, and about page
   dashboardSidebar(
@@ -64,6 +70,7 @@ ui <- dashboardPage( # skin = "black",
   ),
   
   
+  # The main body of dashboard 
   dashboardBody(
     
     tabItems(
@@ -176,6 +183,7 @@ ui <- dashboardPage( # skin = "black",
               )
               
       ),
+      # The about page
       tabItem("about",
                 includeMarkdown("./README.md")
       )
@@ -188,7 +196,7 @@ ui <- dashboardPage( # skin = "black",
 ##################################################
 ## Section: Server layout
 ##################################################
-# Define server logic required to draw a histogram
+# Define server logic 
 server <- function(input, output) {
   
   # ==================================================
@@ -232,6 +240,7 @@ server <- function(input, output) {
     )
   })
   
+  # print the the number of countries used
   output$box1 <- renderValueBox({
     valueBox(
       value = length(unique(graph_filter()$Country)),
@@ -357,6 +366,7 @@ server <- function(input, output) {
     }
   })
   
+  # render the plot 
   output$row_1_l <- renderPlotly({
     if (!is.null(input$radioBarPos)){
       p <- constructe_plot()
@@ -364,7 +374,7 @@ server <- function(input, output) {
     }
   })
   
-  
+  # notification system 
   observeEvent(input$selectVariable, {
     if (input$selectVariable == "Gender"){
       showNotification("Gender (categorical) that contains cis_female,  cis_male, trans_female, 
@@ -380,6 +390,7 @@ server <- function(input, output) {
     }
     })
   
+  # warning system
   observeEvent(input$selectCountry, {
     if (is.null(input$selectCountry) && input$checkCountry == TRUE) {
       showNotification("Sry, there is no data available : (", type = "warning", duration = 4)
@@ -400,27 +411,22 @@ server <- function(input, output) {
   # Data category filter
   data_filter <- reactive({
     if (input$data_category == "Mental health condition") {
-      output_data <- mental_cond %>%
-        select(-X1)
+      output_data <- mental_cond 
     } else if (input$data_category == "Workplace information") {
-      output_data <- work_info %>%
-        select(-X1)
+      output_data <- work_info 
     } else if (input$data_category == "Organizational mental health supports"){
-      output_data <- mental_support %>%
-        select(-X1)
+      output_data <- mental_support 
     } else if (input$data_category == "Openness about mental health") {
-      output_data <- Openness %>%
-        select(-X1)
+      output_data <- Openness 
     } else if (input$data_category == "All") {
       output_data <- tidyall
     } else { # default 
-      output_data <- demo_info %>%
-        select(-X1)
+      output_data <- demo_info 
     }
     
     # Generate output with index
-    # output_data <- output_data %>%
-    #   select(-X1)
+    output_data <- output_data %>%
+      select(-X1)
       # rename(index = X1) %>% 
       # mutate(index = as.integer(index))
   })
@@ -454,6 +460,7 @@ server <- function(input, output) {
     }
   })
   
+  # render description table 
   output$descriptionVar <- renderDataTable({
     if (input$data_category == "Mental health condition") {
       output_data <- tribble(
@@ -519,7 +526,6 @@ server <- function(input, output) {
   #     str(data_filter())
   #   }
   # })
-  
   
   }
 
