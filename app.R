@@ -72,7 +72,6 @@ ui <- dashboardPage( # skin = "black",
   ),
   
   
-  # The main body of dashboard 
   dashboardBody(
     
     useShinyalert(),
@@ -83,9 +82,6 @@ ui <- dashboardPage( # skin = "black",
               fluidRow(
                 column(8,
                        fluidRow(
-                         # valueBoxOutput("box0"),
-                         # valueBoxOutput("box1"),
-                         # valueBoxOutput("box2")
                          valueBoxOutput("box0", width = 6),
                          valueBoxOutput("box1", width = 6)
                        ),
@@ -191,7 +187,6 @@ ui <- dashboardPage( # skin = "black",
                                     title = "Description",
                                     collapsible = TRUE,
                                     collapsed = TRUE,
-                                    # Select data category
                                     dataTableOutput("descriptionTable")
                                 )
                               )
@@ -199,7 +194,8 @@ ui <- dashboardPage( # skin = "black",
               )
               
       ),
-      # The about page
+      
+      # The about page includes the overview of our app
       tabItem("about",
                 includeMarkdown("./README.md")
       )
@@ -258,15 +254,6 @@ server <- function(input, output) {
       color = if (length(unique(graph_filter()$Country)) >= 30) "purple" else "navy"
     )
   })
-  
-  # output$box2 <- renderValueBox({
-  #   valueBox(
-  #     value = "80%",
-  #     subtitle = "box2",
-  #     icon = icon("list"),
-  #     color = "yellow"
-  #   )
-  # })
   
   # output selector for country 
   # output$uiCountry <- renderUI({
