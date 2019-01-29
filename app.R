@@ -275,7 +275,7 @@ server <- function(input, output) {
       return()
     
     if (input$radioGraphType == "bar" ) {
-      radioButtons("radioBarPosition", label = "Bar position (Bar Chart Only)",
+      radioButtons("radioBarPosition", label = "Bar position",
                    choices = list("Dodge" = "dodge",
                                   "Stack" = "stack"),
                    selected = "dodge", inline = TRUE) 

@@ -2,7 +2,12 @@
 
 **Latest Update Date:** 2019 Jan
 
-# Overview 
+# Overview
+
+
+<div align="center">
+<img src="imgs/readme_img.png" width="950" height="125" alt="table"/>
+</div>
 
 The [Shiny app](https://mru4913.shinyapps.io/Mental-Health-Analysis_Vis-App/) shows mental health programs effectiveness in Tech companies in 2014.
 
@@ -31,8 +36,8 @@ Instructor : Vincenzo Coia
 |             |[Deployed Shiny App(2.0)](https://mru4913.shinyapps.io/Mental-Health-Analysis_Vis-App/)|
 
 
-# Data 
+# Data
 
-This dataset is from a 2014 survey that measures attitudes towards mental health and frequency of mental health disorders in the tech workplace. 
+This dataset is from a 2014 survey that measures attitudes towards mental health and frequency of mental health disorders in the tech workplace.
 
 *Acknowledgements*：The original dataset is from Open Sourcing Mental Illness.
