@@ -34,7 +34,8 @@ Instructor : Vincenzo Coia
 |             |[Feedback to DSCI-532-wine-data](https://github.com/UBC-MDS/DSCI-532-wine-data/issues/10)|
 |             |[Writeup](https://github.com/UBC-MDS/Mental-Health-Analysis_Vis-App/blob/master/docs/m3_writeup.md)|
 |             |[Deployed Shiny App(2.0)](https://mru4913.shinyapps.io/Mental-Health-Analysis_Vis-App/)|
-
+|Milestone 4.0|[Writeup]()|
+|             |[Deployed Shiny App(2.1)](https://mru4913.shinyapps.io/Mental-Health-Analysis_Vis-App/)|
 
 # Data
 
