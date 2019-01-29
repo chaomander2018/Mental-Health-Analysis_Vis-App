@@ -18,7 +18,7 @@ suppressPackageStartupMessages(library(shinydashboard))
 suppressPackageStartupMessages(library(shinyalert))
 suppressPackageStartupMessages(library(DT))
 suppressPackageStartupMessages(library(plotly))
-# suppressPackageStartupMessages(library(shinyWidgets))
+suppressPackageStartupMessages(library(shinyWidgets))
 suppressPackageStartupMessages(library(tidyverse))
 suppressPackageStartupMessages(library(summarytools))
 suppressPackageStartupMessages(library(RColorBrewer))
@@ -42,7 +42,7 @@ max_age <- max(demo_info$Age)
 ##################################################
 ## Section: UI layout
 ##################################################
-ui <- dashboardPage( # skin = "black", 
+ui <- dashboardPage( 
   
   dashboardHeader(title = "C&A Inc."
   ),
@@ -62,7 +62,7 @@ ui <- dashboardPage( # skin = "black",
       br(),
       # Help button 
       actionLink(inputId='', 
-                 label=paste("   ","Project Home"),
+                 label="Project Home",
                  icon = icon("github"),
                  onclick = "window.open('https://github.com/UBC-MDS/Mental-Health-Analysis_Vis-App', '_blank')"
                  )
@@ -73,7 +73,7 @@ ui <- dashboardPage( # skin = "black",
   
   
   dashboardBody(
-    
+  
     useShinyalert(),
     
     tabItems(
@@ -116,8 +116,6 @@ ui <- dashboardPage( # skin = "black",
                                                     "4. How easy is it for you to take medical leave for a mental health condition?" = "leave"), 
                                      selected = "benefits"),
                          hr(),
-                         # materialSwitch("switchCountry", label = "Country", status = "primary", right = TRUE),
-                         # uiOutput("uiCountry"),
                          pickerInput('selectCountry', 'Select Country', unique_country,  
                                      selected = unique_country, multiple = TRUE,
                                      options = list("actions-box" = TRUE,
@@ -151,7 +149,6 @@ ui <- dashboardPage( # skin = "black",
                                   title = "Raw data",
                                   solidHeader = TRUE,
                                   dataTableOutput("data_table"),
-                                  # verbatimTextOutput("summary")
                                   wellPanel(id = "tPanel", 
                                             style = "overflow-y:scroll; max-height: 700px",
                                             uiOutput("summaryTable")
@@ -166,7 +163,7 @@ ui <- dashboardPage( # skin = "black",
                                   title = "Data Filter",
                                   solidHeader = TRUE,
                                   collapsible = TRUE,
-                                  # Select data category
+                                  # Select reports
                                   selectInput("selectReport", "Reports: ", 
                                               choices = c("Demographic information",
                                                           "Mental health condition",
@@ -254,20 +251,6 @@ server <- function(input, output) {
       color = if (length(unique(graph_filter()$Country)) >= 30) "purple" else "navy"
     )
   })
-  
-  # output selector for country 
-  # output$uiCountry <- renderUI({
-  #   if (input$switchCountry == FALSE)
-  #     return()
-  #   
-  #   pickerInput('selectCountry', 'Select Country', sort(unique(demo_info$Country)),  
-  #               selected = "United States", multiple = TRUE,
-  #               options = list("actions-box" = TRUE,
-  #                              "dropdownAlignRight" = TRUE,
-  #                              "liveSearch" = TRUE,
-  #                              "dropupAuto" = FALSE,
-  #                              "none-selected-text" = "None"))
-  # })
   
   # output bar position radio buttion 
   output$uiBarPosition <- renderUI({
@@ -401,17 +384,16 @@ server <- function(input, output) {
     }
     })
   
-  # warning system
+  # Give a message when there is no country selected
   observeEvent(input$selectCountry, {
-    if (is.null(input$selectCountry)) { # && input$switchCountry == TRUE
-      # showNotification("Sry, there is no data available : (", type = "warning", duration = 4)
+    if (is.null(input$selectCountry)) { 
       shinyalert("Oops", "Please select more countries.", type = "warning", timer = 1500)
     }
   }, ignoreNULL = FALSE)
   
+  # Give a message when invalid age range is selected 
   observeEvent(input$sliderAge, {
     if (nrow(graph_filter()) == 0 && input$radioGraphType == "bar"){
-      # showNotification("Oops, please try different age range.", type = "warning", duration = 5)
       shinyalert("Oops", "please try different age range.", type = "error", timer = 3000)
     }
   })
@@ -436,12 +418,9 @@ server <- function(input, output) {
     } else { # default 
       output_data <- demo_info 
     }
-    
-    # Generate output with index
+  
     output_data <- output_data %>%
       select(-X1)
-      # rename(index = X1) %>% 
-      # mutate(index = as.integer(index))
   })
   
   # Download hander 
@@ -478,6 +457,7 @@ server <- function(input, output) {
   
   # render description table 
   output$descriptionTable <- DT::renderDataTable({
+    
     if (input$selectReport == "Mental health condition") {
       output_data <- tribble(
         ~Factor,    ~Description,
@@ -531,21 +511,14 @@ server <- function(input, output) {
   }, 
   rownames= FALSE,
   options = list(pageLength = 5,
-                    lengthMenu = c(3),
-                    dom = 'tp',
-                    searching = FALSE,
-                    scrollY = 330,
-                    scroller = TRUE)
+                 lengthMenu = c(3),
+                 dom = 'tp',
+                 searching = FALSE,
+                 scrollY = 330,
+                 scroller = TRUE)
   )
   
-  # render the structure
-  # output$structure <- renderPrint({
-  #   if (input$display_button == "Structure"){
-  #     str(data_filter())
-  #   }
-  # })
-  
-  }
+}
 
 ##################################################
 ## Section: run app
