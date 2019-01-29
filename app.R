@@ -82,8 +82,8 @@ ui <- dashboardPage( # skin = "black",
               fluidRow(
                 column(8,
                        fluidRow(
-                         valueBoxOutput("box0", width = 6),
-                         valueBoxOutput("box1", width = 6)
+                         valueBoxOutput("observationBox", width = 6),
+                         valueBoxOutput("countryBox", width = 6)
                        ),
                        box(
                          width = 13, status = "primary", solidHeader = TRUE, 
@@ -236,7 +236,7 @@ server <- function(input, output) {
   })
   
   # print the count box
-  output$box0 <- renderValueBox({
+  output$observationBox <- renderValueBox({
     valueBox(
       value = dim(graph_filter())[1],
       subtitle = h4("Current Observations"),
@@ -246,7 +246,7 @@ server <- function(input, output) {
   })
   
   # print the the number of countries used
-  output$box1 <- renderValueBox({
+  output$countryBox <- renderValueBox({
     valueBox(
       value = length(unique(graph_filter()$Country)),
       subtitle = h4("Current Countries"),
