@@ -12,7 +12,7 @@ During the last milestone project, we have made a great improvement in our shiny
 #### 2.1 Change R-styled summary to a summary table.
 
 <div align="center">
-<img src="../imgs/change6.png" width="350" height="200" alt="table"/>
+<img src="../imgs/change6.png" height="300" alt="table"/>
 </div>
 
 Rationale: the previous version of the summary is plain-data-focused. It is hard for non-technical users to understand. The new version of **Data Frame Summary** increases readability as well as offers more tabular visualization, which is more friendly to the general public.
@@ -21,7 +21,7 @@ Rationale: the previous version of the summary is plain-data-focused. It is hard
 #### 2.2 Add notes on variable names.
  
 <div align="center">
-<img src="../imgs/change4.png" width="350" height="200" alt="table"/>
+<img src="../imgs/change4.png" width="350" height="160" alt="table"/>
 </div>
 
 Even though we hide the variable selections in the pie chart display, it was still not very clear to users when and where they can apply variable selections. Hence, we added more notes to explain that variable selection is only applicable to bar charts.
@@ -48,7 +48,7 @@ In accordance with the TA’s feedback, “Project Home” is a better descripti
 #### 2.5 Change the default plot color palette to a color-blind-friendly palette that matches the overall app design.
 
 <div align="center">
-<img src="../imgs/change9.png" width="350" height="200" alt="table"/>
+<img src="../imgs/change9.png" width="400" height="200" alt="table"/>
 </div>
 
 To make our Shiny App even more user-friendly, we replaced the ggplot2 default color palettes with a color-blind-safe palette from Color Brewer package. The new color palette also matches the overall Shiny theme color.
@@ -56,7 +56,7 @@ To make our Shiny App even more user-friendly, we replaced the ggplot2 default c
 #### 2.6 Remove redundant material switch(Country).
 
 <div align="center">
-<img src="../imgs/change7.png" width="350" height="200" alt="table"/>
+<img src="../imgs/change7.png" width="400" height="200" alt="table"/>
 </div>
 
 As per TA suggested, we removed the material switch as it is more or less redundant in our case.
@@ -65,7 +65,7 @@ As per TA suggested, we removed the material switch as it is more or less redund
 #### 2.7 Replace the warming message to a pop-up Shiny Alert.
 
 <div align="center">
-<img src="../imgs/change8.png" width="350" height="200" alt="table"/>
+<img src="../imgs/change8.png" width="400" height="200" alt="table"/>
 </div>
 
 In our previous version, the warning message is displayed at the right bottom of the dashboard for only 1.5 seconds. In our newest update, we implemented a Shiny Alert in the middle of the page with 3 seconds duration. The bigger size and the better position allows users to be more alert that they need to change their invalid data selections.
